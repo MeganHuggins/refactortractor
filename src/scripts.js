@@ -1,10 +1,12 @@
 const userData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
   .then(response => response.json())
   .then(data => console.log(data.userData))
-  .catch(error => console.log(`There was an error ${error}`));
+  .catch(error => console.log(`There was an error obtaining userData ${error}`))
 
-
-
+const sleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData')
+  .then(response => response.json())
+  .then(data => console.log(data.sleepData))
+  .catch(error => console.log(`There was an error obtaining sleepData ${error}`))
 
 
 
