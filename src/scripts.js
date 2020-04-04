@@ -1,14 +1,34 @@
+
 const userData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
   .then(response => response.json())
-  .then(data => console.log(data.userData))
+  .then(data => data.userData)
   .catch(error => console.log(`There was an error obtaining userData ${error}`))
 
 const sleepData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData')
   .then(response => response.json())
-  .then(data => console.log(data.sleepData))
+  .then(data => data.sleepData)
   .catch(error => console.log(`There was an error obtaining sleepData ${error}`))
 
+const activityData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData')
+  .then(response => response.json())
+  .then(data => data.activityData)
+  .catch(error => console.log(`There was an error obtaining activityData ${error}`))
 
+const hydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
+  .then(response => response.json())
+  .then(data => data.hydrationData)
+  .catch(error => console.log(`There was an error obtaining hydrationData ${error}`))
+
+Promise.all([userData, sleepData, activityData, hydrationData])
+  .then(data => {
+    usersData = data[0];
+    sleepData = data[1];
+    activityData = data[2];
+    hydrationData = data[3]
+  })
+  .catch(error => console.log(`There was an error obtaining wtf ${error}`))
+
+  console.log('nerds', usersData);
 
 // // import './css/base.scss';
 // import './css/style.scss';
