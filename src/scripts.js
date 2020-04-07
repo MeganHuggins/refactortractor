@@ -1,5 +1,8 @@
 
-const userData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
+import './css/style.scss';
+import domUpdates from './domUpdates';
+
+const usersData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
   .then(response => response.json())
   .then(data => data.userData)
   .catch(error => console.log(`There was an error obtaining userData ${error}`))
@@ -19,16 +22,24 @@ const hydrationData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hy
   .then(data => data.hydrationData)
   .catch(error => console.log(`There was an error obtaining hydrationData ${error}`))
 
-Promise.all([userData, sleepData, activityData, hydrationData])
+Promise.all([usersData, sleepData, activityData, hydrationData])
   .then(data => {
-    usersData = data[0];
-    sleepData = data[1];
-    activityData = data[2];
-    hydrationData = data[3]
+    const users = data[0];
+    const sleep = data[1];
+    const activity = data[2];
+    const hydration = data[3];
+    domUpdates.loadPage(users, sleep, activity, hydration);
   })
-  .catch(error => console.log(`There was an error obtaining wtf ${error}`))
+  .catch(error => console.log(`There was an error obtaining all data ${error}`))
 
-  console.log('nerds', usersData);
+//   const findRandomUser = () => {
+//   for (let i = usersData.length - 1; i > 0; i--) {
+//     let n = Math.floor(Math.random() * (i + 1));
+//     [usersData[i], usersData[n]] = [usersData[n], usersData[i]];
+//   }
+//   return usersData[0];
+// }
+
 
 // // import './css/base.scss';
 // import './css/style.scss';
