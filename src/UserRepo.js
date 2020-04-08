@@ -1,21 +1,14 @@
+import domUpdates from './domUpdates';
 
-
-
+let todaysDate;
 class UserRepo {
   constructor(users, user) {
     this.users = users;
     this.user = user.userData;
   };
 
-  // getDataFromID(id) { *** finding user object
-  //   return this.users.find((user) => id === user.id);
-  // };
-
-
-  //we want this in our refactored work
   getDataSetForUser(dataSet) {
     return dataSet.filter((userData) => userData.userID === this.user.id);
-
   };
 
   calculateAverageStepGoal() {
@@ -25,16 +18,23 @@ class UserRepo {
     return totalStepGoal / this.users.length;
   };
 
-  getDataFromPastWeek(dataSet, date) {
+  getDataFromPastWeek(dataSet) {
+    let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
+    todaysDate = domUpdates.findMostCurrentDate(userDataSet);
 
-    let userDataSet = getDataSetForUser(dataSet);
     // find index of date
     // then work back 7 days from date we are working with
-    // console.log(userDataSet);
-    // userDataSet.find((dates, index) => {
-    //   console.log(index);
-    //   dates.date === date;
+
+    // let blah = userDataSet.find((dates, index) => {
+    //   if (dates.date === date) {
+    //     console.log('index:    ', index);
+    //
+    //
+    //   }
     // });
+    //
+    // console.log('this.USER:  ', this.user);
+    // console.log('blah:  ', blah);
   }
 
 

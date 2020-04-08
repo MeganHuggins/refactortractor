@@ -7,21 +7,16 @@ import Activity from './Activity';
 
 import moment from 'moment';
 
-let today, userRepo, user, todaysDate;
+let userRepo, currentUser;
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
-    // today = moment().format('YYYY-MM-DD');
     // sleepData = new Sleep(sleepData);
     // activityData = new Activity(activityData);
     // hydrationData = new Hydration(hydrationData);
-    domUpdates.findRandomUser(users);
-    userRepo = new UserRepo(users, user);
-    domUpdates.findMostCurrentDate(sleepData);
-
-    // var sortedArray = userRepo.getDataSetForUser(sleepData);
-
-
+    currentUser = domUpdates.findRandomUser(users);
+    userRepo = new UserRepo(users, currentUser);
+    userRepo.getDataFromPastWeek(sleepData);
   },
 
   findRandomUser: (users) => {
@@ -29,18 +24,11 @@ const domUpdates = {
       let n = Math.floor(Math.random() * (i + 1));
       [users[i], users[n]] = [users[n], users[i]];
     }
-    user = new User(users[0]);
-
-
+    return new User(users[0]);
   },
 
   findMostCurrentDate: (dataSet) => {
-    todaysDate = dataSet[dataSet.length - 1].date;
-
-    // userRepo.getDataFromPastWeek(dataSet, todaysDate);
-    // var sortedArray = usersRepo.makeSortedUserArray(user, dataSet);
-
-    // let blah = sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
+    return dataSet[dataSet.length - 1].date;
   },
 
 
