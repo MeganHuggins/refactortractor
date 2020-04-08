@@ -2,6 +2,7 @@
 import './css/style.scss';
 import domUpdates from './domUpdates';
 
+
 const usersData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
   .then(response => response.json())
   .then(data => data.userData)
@@ -32,25 +33,15 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
   })
   .catch(error => console.log(`There was an error obtaining all data ${error}`))
 
-//   const findRandomUser = () => {
-//   for (let i = usersData.length - 1; i > 0; i--) {
-//     let n = Math.floor(Math.random() * (i + 1));
-//     [usersData[i], usersData[n]] = [usersData[n], usersData[i]];
-//   }
-//   return usersData[0];
-// }
 
 
-// // import './css/base.scss';
 // import './css/style.scss';
-//
 // import './images/person walking on path.jpg';
 // import './images/The Rock.jpg';
-//
-// import userData from './data/users';
-// import hydrationData from './data/hydration';
-// import sleepData from './data/sleep';
-// import activityData from './data/activity';
+// import userData from './data/users-DONTUSE';
+// import hydrationData from './data/hydration-DONTUSE';
+// import sleepData from './data/sleep-DONTUSE';
+// import activityData from './data/activity-DONTUSE';
 //
 // import User from './User';
 // import Activity from './Activity';
@@ -92,37 +83,39 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 // var streakListMinutes = document.getElementById('streakListMinutes')
 //
 // function startApp() {
-//   let userList = [];
-//   makeUsers(userList);
-//   let userRepo = new UserRepo(userList);
-//   let hydrationRepo = new Hydration(hydrationData);
-//   let sleepRepo = new Sleep(sleepData);
-//   let activityRepo = new Activity(activityData);
-//   var userNowId = pickUser();
-//   let userNow = getUserById(userNowId, userRepo);
-//   let today = makeToday(userRepo, userNowId, hydrationData);
-//   let randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
+//   // let userList = []; dont need**
+//   // makeUsers(userList); dont need**
+//   let userRepo = new UserRepo(userList); **
+//   let hydrationRepo = new Hydration(hydrationData); **
+//   let sleepRepo = new Sleep(sleepData); **
+//   let activityRepo = new Activity(activityData); **
+//   var currentUserID = pickUser(); **
+//   let currentUser = getUserById(currentUserID, userRepo); **
+//   let today = makeToday(userRepo, currentUserID, hydrationData);
+
+//   let randomHistory = makeRandomDate(userRepo, currentUserID, hydrationData);
+
 //   historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
-//   addInfoToSidebar(userNow, userRepo);
-//   addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
-//   addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
-//   let winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
-//   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
-//   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+//   addInfoToSidebar(currentUser, userRepo);
+//   addHydrationInfo(currentUserID, hydrationRepo, today, userRepo, randomHistory);
+//   addSleepInfo(currentUserID, sleepRepo, today, userRepo, randomHistory);
+//   let winnerNow = makeWinnerID(activityRepo, currentUser, today, userRepo);
+//   addActivityInfo(currentUserID, activityRepo, today, userRepo, randomHistory, currentUser, winnerNow);
+//   addFriendGameInfo(currentUserID, activityRepo, userRepo, today, randomHistory, currentUser);
 // }
 //
-// function makeUsers(array) {
-//   userData.forEach(function(dataItem) {
-//     let user = new User(dataItem);
-//     array.push(user);
-//   })
-// }
+// // function makeUsers(array) { *** dont need to instantiate 50 users on page load??? *****
+// //   userData.forEach(function(dataItem) {
+// //     let user = new User(dataItem);
+// //     array.push(user);
+// //   })
+// // }
 //
-// function pickUser() {
+// function pickUser() { *** we have this method in domUpdates ***
 //   return Math.floor(Math.random() * 50);
 // }
 //
-// function getUserById(id, listRepo) {
+// function getUserById(id, listRepo) { ****  ****
 //   return listRepo.getDataFromID(id);
 // };
 //
@@ -145,17 +138,19 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 // function makeWinnerID(activityInfo, user, dateString, userStorage){
 //   return activityInfo.getWinnerId(user, dateString, userStorage)
 // }
-//
-// function makeToday(userStorage, id, dataSet) {
-//   var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
+
+// function makeToday(userRepo, currentUserID, hydrationData) { ******
+//   var sortedArray = userRepo.makeSortedUserArray(currentUserID, hydrationData);
 //   return sortedArray[0].date;
 // }
-//
+//          makeRandomDate(userRepo, currentUserID, hydrationData);
+
 // function makeRandomDate(userStorage, id, dataSet) {
 //   var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
 //   return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
 //
 // }
+
 //
 // function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
 //   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
