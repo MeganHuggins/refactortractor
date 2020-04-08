@@ -6,7 +6,7 @@ import Hydration from './Hydration';
 import Activity from './Activity';
 
 
-let userRepo, currentUser;
+let userRepo, currentUser, activity;
 let headerText = document.getElementById('headerText');
 let sidebarName = document.getElementById('sidebarName');
 let stepGoalCard = document.getElementById('stepGoalCard');
@@ -24,8 +24,11 @@ const domUpdates = {
     // hydrationData = new Hydration(hydrationData);
     currentUser = domUpdates.findRandomUser(users);
     userRepo = new UserRepo(users, currentUser);
+    activity = new Activity(activityData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
+    domUpdates.makeWinnerID(activityData);
+
 
 
     // var sortedArray = userRepo.getDataSetForUser(sleepData);
@@ -65,9 +68,14 @@ const domUpdates = {
 
   makeFriendHTML: (userRepo) => {
     let friends = currentUser.getFriendsNames(userRepo);
-    console.log(friends);
     return friends.map(friend => `<li class='historical-list-listItem'>${friend}</li>`).join('');
   },
+
+  makeWinnerID: (activityData) => {
+    let todaysDate = domUpdates.findMostCurrentDate(activityData);
+    let weiner = activity.getWinnerId(currentUser, todaysDate, userRepo);
+    console.log(weiner);
+  }
 
 
 

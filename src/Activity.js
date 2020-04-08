@@ -33,7 +33,7 @@ class Activity {
     return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
   }
   userDataForToday(id, date, userRepo, relevantData) {
-    let userData = userRepo.getDataFromUserID(id, this.activityData);
+    let userData = userRepo.getDataSetForUser(id, this.activityData);
     return userData.find(data => data.date === date)[relevantData];
   }
   userDataForWeek(id, date, userRepo, releventData) {
@@ -45,7 +45,7 @@ class Activity {
   getFriendsActivity(user, userRepo) {
     let data = this.activityData;
     let userDatalist = user.friends.map(function(friend) {
-      return userRepo.getDataFromUserID(friend, data)
+      return userRepo.getDataSetForUser(friend, data)
     });
     return userDatalist.reduce(function(arraySoFar, listItem) {
       return arraySoFar.concat(listItem);

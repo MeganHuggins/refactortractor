@@ -137,9 +137,9 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 
 
 //
-// function makeFriendHTML(user, userStorage) {
+// function makeFriendHTML(user, userStorage) { *** Done Done DID IT
 //   return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
-// }
+// } ***
 
 // function makeWinnerID(activityInfo, user, dateString, userStorage){
 //   return activityInfo.getWinnerId(user, dateString, userStorage)
