@@ -1,20 +1,20 @@
-
-
+import domUpdates from './domUpdates';
+let todaysDate;
 
 class UserRepo {
-  constructor(users, user) {
+  constructor(users, currentUser) {
     this.users = users;
-    this.user = user.userData;
+    this.currentUser = currentUser;
   };
 
-  // getDataFromID(id) { *** finding user object
+  // getDataFromID(id) {
   //   return this.users.find((user) => id === user.id);
   // };
 
 
   //we want this in our refactored work
   getDataSetForUser(dataSet) {
-    return dataSet.filter((userData) => userData.userID === this.user.id);
+    return dataSet.filter(userData => userData.userID === this.currentUser.id);
 
   };
 
@@ -27,15 +27,15 @@ class UserRepo {
 
   getDataFromPastWeek(dataSet, date) {
 
-    let userDataSet = getDataSetForUser(dataSet);
+    let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
+    todaysDate = domUpdates.findMostCurrentDate(userDataSet);
+
     // find index of date
+    let indexOfCurrentDate = userDataSet.indexOf(userDataSet.find(data => data.date === todaysDate));
     // then work back 7 days from date we are working with
-    // console.log(userDataSet);
-    // userDataSet.find((dates, index) => {
-    //   console.log(index);
-    //   dates.date === date;
-    // });
-  }
+    let weeksWorthOfData = userDataSet.splice((indexOfCurrentDate - 7), 7);
+    return weeksWorthOfData;
+  };
 
 
   // makeSortedUserArray(user, dataSet) {
