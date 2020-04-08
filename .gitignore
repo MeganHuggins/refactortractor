@@ -79,5 +79,19 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+<<<<<<< HEAD
+# DS_store
+.DS_Store
+
+# Data Files
+.src/data/users-DONTUSE.js
+.src/data/sleep-DONTUSE.js
+.src/data/hydration-DONTUSE.js
+.src/data/activity-DONTUSE.js
+=======
 # DS Store file
 .DS_Store
+>>>>>>> a2e44acf6e83a7e2a3559a7905f96ae6e4e3a846
+
+# index File
+.src/index.js

@@ -2,7 +2,7 @@
   "name": "webpack-starter-kit",
   "version": "1.0.0",
   "description": "Project starter kit using webpack, mocha, chai, and SCSS/SASS enabled",
-  "main": "src/index.js",
+  "main": "src/scripts.js",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
@@ -32,6 +32,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "jquery": "^3.4.1"
+    "jquery": "^3.4.1",
+    "moment": "^2.24.0"
   }
 }
