@@ -38,7 +38,7 @@ const domUpdates = {
       let n = Math.floor(Math.random() * (i + 1));
       [users[i], users[n]] = [users[n], users[i]];
     }
-    return new User(users[0]);
+    return new User(users[0], users);
 
 
   },
@@ -64,8 +64,12 @@ const domUpdates = {
   },
 
   makeFriendHTML: (userRepo) => {
-    return currentUser.getFriendsNames(userRepo).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
+    let friends = currentUser.getFriendsNames(userRepo);
+    console.log(friends);
+    return friends.map(friend => `<li class='historical-list-listItem'>${friend}</li>`).join('');
   },
+
+
 
 }
 
