@@ -124,7 +124,7 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 //
 
 
-// function addInfoToSidebar(user, userRepo) {
+// function addInfoToSidebar(user, userRepo) { **** Moved over to domUpdates
 //   sidebarName.innerText = user.name;
 //   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
 //   stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
@@ -133,13 +133,13 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 //   userEmail.innerText = user.email;
 //   userStridelength.innerText = `Your stridelength is ${user.strideLength} meters.`;
 //   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(user, userRepo))
-// };
+// }; ***
 
 
 //
-// function makeFriendHTML(user, userStorage) {
+// function makeFriendHTML(user, userStorage) { *** Done Done DID IT
 //   return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
-// }
+// } ***
 
 // function makeWinnerID(activityInfo, user, dateString, userStorage){
 //   return activityInfo.getWinnerId(user, dateString, userStorage)

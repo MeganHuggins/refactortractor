@@ -12,12 +12,23 @@ class User {
     this.hydrationData = null;
 
   };
+
   getFirstName() {
     return this.name.split(' ', 1).join();
-  }
+  };
+
   getFriendsNames(userRepo) {
-    return this.friends.map(friend => userRepo.getDataSetForUser(this.friends).name);
-  }
+    let friendsNames = [];
+    this.friends.forEach(friend => {
+      userRepo.users.find(user => {
+        if(friend === user.id) {
+          friendsNames.push(user.name);
+        }
+      })
+    })
+    return friendsNames;
+  };
+
 }
 
 

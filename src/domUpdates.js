@@ -6,7 +6,7 @@ import Hydration from './Hydration';
 import Activity from './Activity';
 
 
-let userRepo, currentUser;
+let userRepo, currentUser, activity;
 let headerText = document.getElementById('headerText');
 let sidebarName = document.getElementById('sidebarName');
 let stepGoalCard = document.getElementById('stepGoalCard');
@@ -24,8 +24,11 @@ const domUpdates = {
     // hydrationData = new Hydration(hydrationData);
     currentUser = domUpdates.findRandomUser(users);
     userRepo = new UserRepo(users, currentUser);
+    activity = new Activity(activityData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
+    domUpdates.makeWinnerID(activityData);
+
 
 
     // var sortedArray = userRepo.getDataSetForUser(sleepData);
@@ -38,7 +41,7 @@ const domUpdates = {
       let n = Math.floor(Math.random() * (i + 1));
       [users[i], users[n]] = [users[n], users[i]];
     }
-    return new User(users[0]);
+    return new User(users[0], users);
 
 
   },
@@ -64,8 +67,17 @@ const domUpdates = {
   },
 
   makeFriendHTML: (userRepo) => {
-    return currentUser.getFriendsNames(userRepo).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
+    let friends = currentUser.getFriendsNames(userRepo);
+    return friends.map(friend => `<li class='historical-list-listItem'>${friend}</li>`).join('');
   },
+
+  makeWinnerID: (activityData) => {
+    let todaysDate = domUpdates.findMostCurrentDate(activityData);
+    let weiner = activity.getWinnerId(currentUser, todaysDate, userRepo);
+    console.log(weiner);
+  }
+
+
 
 }
 
