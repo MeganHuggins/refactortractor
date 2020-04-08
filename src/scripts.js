@@ -91,12 +91,14 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 //   let activityRepo = new Activity(activityData); **
 //   var currentUserID = pickUser(); **
 //   let currentUser = getUserById(currentUserID, userRepo); **
-//   let today = makeToday(userRepo, currentUserID, hydrationData);
+//   let today = makeToday(userRepo, currentUserID, hydrationData); ** No longer getting random date/ now current date
 
 //   let randomHistory = makeRandomDate(userRepo, currentUserID, hydrationData);
 
-//   historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
-//   addInfoToSidebar(currentUser, userRepo);
+  // historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${todaysDate}`));
+  // addInfoToSidebar(currentUser, userRepo);
+
+
 //   addHydrationInfo(currentUserID, hydrationRepo, today, userRepo, randomHistory);
 //   addSleepInfo(currentUserID, sleepRepo, today, userRepo, randomHistory);
 //   let winnerNow = makeWinnerID(activityRepo, currentUser, today, userRepo);
@@ -120,21 +122,25 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 // };
 //
 //
-// function addInfoToSidebar(user, userStorage) {
+
+
+// function addInfoToSidebar(user, userRepo) {
 //   sidebarName.innerText = user.name;
 //   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
 //   stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
-//   avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
+//   avStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
 //   userAddress.innerText = user.address;
 //   userEmail.innerText = user.email;
 //   userStridelength.innerText = `Your stridelength is ${user.strideLength} meters.`;
-//   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(user, userStorage))
+//   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(user, userRepo))
 // };
+
+
 //
 // function makeFriendHTML(user, userStorage) {
 //   return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
 // }
-//
+
 // function makeWinnerID(activityInfo, user, dateString, userStorage){
 //   return activityInfo.getWinnerId(user, dateString, userStorage)
 // }

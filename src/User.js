@@ -1,33 +1,24 @@
 class User {
   constructor(userData) {
-    this.userData = userData;
+    this.id = userData.id;
+    this.name = userData.name;
+    this.address = userData.address;
+    this.email = userData.email;
+    this.strideLength = userData.strideLength;
+    this.dailyStepGoal = userData.dailyStepGoal;
+    this.friends = userData.friends;
     this.sleepData = null;
     this.activityData = null;
     this.hydrationData = null;
 
   };
-
-
-
+  getFirstName() {
+    return this.name.split(' ', 1).join();
+  }
+  getFriendsNames(userRepo) {
+    return this.friends.map(friend => userRepo.getDataSetForUser(this.friends).name);
+  }
 }
 
-// class User {
-//   constructor(userDetails) {
-//     this.id = userDetails.id;
-//     this.name = userDetails.name;
-//     this.address = userDetails.address;
-//     this.email = userDetails.email;
-//     this.strideLength = userDetails.strideLength;
-//     this.dailyStepGoal = userDetails.dailyStepGoal;
-//     this.friends = userDetails.friends;
-//
-//   }
-//   getFirstName() {
-//     return this.name.split(' ', 1).join();
-//   }
-//   getFriendsNames(userStorage) {
-//     return this.friends.map((friendId) => (userStorage.getDataFromID(friendId).name));
-//   }
-// }
 
 export default User;

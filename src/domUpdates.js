@@ -5,9 +5,16 @@ import Sleep from './Sleep';
 import Hydration from './Hydration';
 import Activity from './Activity';
 
-import moment from 'moment';
 
-let today, userRepo, user, todaysDate;
+let userRepo, currentUser;
+let headerText = document.getElementById('headerText');
+let sidebarName = document.getElementById('sidebarName');
+let stepGoalCard = document.getElementById('stepGoalCard');
+let userAddress = document.getElementById('userAddress');
+let userEmail = document.getElementById('userEmail');
+let userStridelength = document.getElementById('userStridelength');
+let friendList = document.getElementById('friendList');
+
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
@@ -15,9 +22,11 @@ const domUpdates = {
     // sleepData = new Sleep(sleepData);
     // activityData = new Activity(activityData);
     // hydrationData = new Hydration(hydrationData);
-    domUpdates.findRandomUser(users);
-    userRepo = new UserRepo(users, user);
-    domUpdates.findMostCurrentDate(sleepData);
+    currentUser = domUpdates.findRandomUser(users);
+    userRepo = new UserRepo(users, currentUser);
+    userRepo.getDataFromPastWeek(hydrationData);
+    domUpdates.addInfoToSidebar(userRepo);
+
 
     // var sortedArray = userRepo.getDataSetForUser(sleepData);
 
@@ -29,29 +38,38 @@ const domUpdates = {
       let n = Math.floor(Math.random() * (i + 1));
       [users[i], users[n]] = [users[n], users[i]];
     }
-    user = new User(users[0]);
+    return new User(users[0]);
 
 
   },
 
   findMostCurrentDate: (dataSet) => {
-    todaysDate = dataSet[dataSet.length - 1].date;
-
-    // userRepo.getDataFromPastWeek(dataSet, todaysDate);
-    // var sortedArray = usersRepo.makeSortedUserArray(user, dataSet);
-
-    // let blah = sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
+    return dataSet[dataSet.length - 1].date;
   },
 
+  //
+  // populateLastWeeksData: () => {
+  //
+  // },
 
-  populateLastWeeksData: () => {
+  addInfoToSidebar: (userRepo) => {
+    sidebarName.innerText = currentUser.name;
+    headerText.innerText = `${currentUser.getFirstName()}'s Activity Tracker`;
+    stepGoalCard.innerText = `Your daily step goal is ${currentUser.dailyStepGoal}.`
+    avStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
+    userAddress.innerText = currentUser.address;
+    userEmail.innerText = currentUser.email;
+    userStridelength.innerText = `Your stridelength is ${currentUser.strideLength} meters.`;
+    friendList.insertAdjacentHTML('afterBegin', domUpdates.makeFriendHTML(userRepo))
+  },
 
-  }
-  // function makeToday(userRepo, currentUserID, hydrationData) {
-  //   var sortedArray = userRepo.makeSortedUserArray(currentUserID, hydrationData);
-  //   return sortedArray[0].date;
-  // }
+  makeFriendHTML: (userRepo) => {
+    return currentUser.getFriendsNames(userRepo).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
+  },
 
 }
+
+
+
 
 export default domUpdates;
