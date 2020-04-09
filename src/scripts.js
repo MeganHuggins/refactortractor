@@ -1,5 +1,7 @@
 import './css/style.scss';
 import domUpdates from './domUpdates';
+import './images/person walking on path.jpg';
+import './images/The Rock.jpg';
 // import user from './User';
 // import sleep from './Sleep';
 // import activity from './Activity';
