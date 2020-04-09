@@ -43,26 +43,28 @@ class UserRepo {
   // }
 
 
-  getToday(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet)[0].date;
-  };
-  getFirstWeek(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet).slice(0, 7);
-  };
-  getWeekFromDate(date, id, dataSet) {
-    let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-    return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
-  };
+  // getToday(id, dataSet) {****DO NOT need methods above address these:
+  //   return this.makeSortedUserArray(id, dataSet)[0].date;
+  // };
+  // getFirstWeek(id, dataSet) {
+  //   return this.makeSortedUserArray(id, dataSet).slice(0, 7);
+  // };
+  // getWeekFromDate(date, id, dataSet) {
+  //   let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
+  //   return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+  // };
   chooseWeekDataForAllUsers(dataSet, date) {
     return dataSet.filter(function(dataItem) {
       return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
     })
   };
+
   chooseDayDataForAllUsers(dataSet, date) {
     return dataSet.filter(function(dataItem) {
       return dataItem.date === date
     });
   }
+
   isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod) {
     return listFromMethod.reduce(function(objectSoFar, dataItem) {
       if (!objectSoFar[dataItem.userID]) {
@@ -73,6 +75,7 @@ class UserRepo {
       return objectSoFar;
     }, {});
   }
+  
   rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod) {
     let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
     return Object.keys(sortedObjectKeys).sort(function(b, a) {

@@ -5,16 +5,16 @@ import Sleep from './Sleep';
 import Hydration from './Hydration';
 import Activity from './Activity';
 
-
 let userRepo, currentUser, activity, mostCurrentDateInDataSet;
-let headerText = document.getElementById('headerText');
-let sidebarName = document.getElementById('sidebarName');
-let stepGoalCard = document.getElementById('stepGoalCard');
-let userAddress = document.getElementById('userAddress');
-let userEmail = document.getElementById('userEmail');
-let userStridelength = document.getElementById('userStridelength');
-let friendList = document.getElementById('friendList');
-let historicalWeek = document.querySelectorAll('.historicalWeek');
+
+// let headerText = document.getElementById('headerText');
+// let sidebarName = document.getElementById('sidebarName');
+// let stepGoalCard = document.getElementById('stepGoalCard');
+// let userAddress = document.getElementById('userAddress');
+// let userEmail = document.getElementById('userEmail');
+// let userStridelength = document.getElementById('userStridelength');
+// let friendList = document.getElementById('friendList');
+let mostCurrentWeek = document.querySelectorAll('.historicalWeek');
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
@@ -44,9 +44,7 @@ const domUpdates = {
       let n = Math.floor(Math.random() * (i + 1));
       [users[i], users[n]] = [users[n], users[i]];
     }
-    return new User(users[0], users);
-
-
+    return new User(users[0]);
   },
 
   findMostCurrentDate: (dataSet) => {
@@ -56,20 +54,20 @@ const domUpdates = {
 
 
   populateLastWeeksData: () => {
-      historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
+    // $('.historicalWeek').each(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
+      mostCurrentWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
       // addInfoToSidebar(currentUser, userRepo);
-
   },
 
   addInfoToSidebar: (userRepo) => {
-    sidebarName.innerText = currentUser.name;
-    headerText.innerText = `${currentUser.getFirstName()}'s Activity Tracker`;
-    stepGoalCard.innerText = `Your daily step goal is ${currentUser.dailyStepGoal}.`
+    $('#sidebarName').text(currentUser.name);
+    $('#headerText').text(`${currentUser.getFirstName()}'s Activity Tracker`);
+    $('#stepGoalCard').text(`Your daily step goal is ${currentUser.dailyStepGoal}.`);
     avStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
-    userAddress.innerText = currentUser.address;
-    userEmail.innerText = currentUser.email;
-    userStridelength.innerText = `Your stridelength is ${currentUser.strideLength} meters.`;
-    friendList.insertAdjacentHTML('afterBegin', domUpdates.makeFriendHTML(userRepo))
+    $('#userAddress').text(currentUser.address);
+    $('#userEmail').text(currentUser.email);
+    $('#userStridelength').text(`Your stridelength is ${currentUser.strideLength} meters.`);
+    $('#friendList').append(domUpdates.makeFriendHTML(userRepo));
   },
 
   makeFriendHTML: (userRepo) => {
@@ -81,9 +79,6 @@ const domUpdates = {
     let mostCurrentDateInDataSet = domUpdates.findMostCurrentDate(activityData);
     let weiner = activity.getWinnerId(currentUser, mostCurrentDateInDataSet, userRepo);
   }
-
-
-
 }
 
 
