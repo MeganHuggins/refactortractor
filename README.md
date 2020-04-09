@@ -8,7 +8,7 @@
 [Megan Huggins](https://github.com/meganhuggins)
 
 ## Abstract
-This was our third project (team of three) from Mod2 (of 4 mods total) at Turing School of Software and Design. We were given a week and a half to refactor an existing code base, make the code DRY and implement incomplete features. The app uses the `fetch()` API to `GET` data. A major learning goal for this project was to create a robust testing suite using Chai, Chai Spies, and Mocha to thouroughly test units.
+This is a group project (team of three) during our time at Turing School of Software and Design. We were given a week and a half to refactor an existing code base, make the code DRY and implement incomplete features. The app uses the `fetch()` API to `GET` data. A major learning goal for this project was to create a robust testing suite using Chai, Chai Spies, and Mocha to thouroughly test units.
 
 ## Setup
 1. clone down this repo to desired location
