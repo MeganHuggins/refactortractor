@@ -54,8 +54,11 @@ const domUpdates = {
 
 
   populateLastWeeksData: () => {
-    // $('.historicalWeek').each(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
-      mostCurrentWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
+    // console.log($('.historicalWeek'));
+    $('.historicalWeek').each((index, value) => {
+      $(value).append(`Week of ${mostCurrentDateInDataSet}`);
+    });
+      // mostCurrentWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
       // addInfoToSidebar(currentUser, userRepo);
   },
 
