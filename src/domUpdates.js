@@ -6,7 +6,7 @@ import Hydration from './Hydration';
 import Activity from './Activity';
 
 
-let userRepo, currentUser, activity;
+let userRepo, currentUser, activity, mostCurrentDateInDataSet;
 let headerText = document.getElementById('headerText');
 let sidebarName = document.getElementById('sidebarName');
 let stepGoalCard = document.getElementById('stepGoalCard');
@@ -14,7 +14,7 @@ let userAddress = document.getElementById('userAddress');
 let userEmail = document.getElementById('userEmail');
 let userStridelength = document.getElementById('userStridelength');
 let friendList = document.getElementById('friendList');
-
+let historicalWeek = document.querySelectorAll('.historicalWeek');
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
@@ -22,12 +22,15 @@ const domUpdates = {
     // sleepData = new Sleep(sleepData);
     // activityData = new Activity(activityData);
     // hydrationData = new Hydration(hydrationData);
+    mostCurrentDateInDataSet = domUpdates.findMostCurrentDate(hydrationData);
     currentUser = domUpdates.findRandomUser(users);
-    userRepo = new UserRepo(users, currentUser);
+    domUpdates.findMostCurrentDate(hydrationData);
+    userRepo = new UserRepo(users, currentUser, mostCurrentDateInDataSet);
     activity = new Activity(activityData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
-    domUpdates.makeWinnerID(activityData);
+    // domUpdates.makeWinnerID(activityData);
+    domUpdates.populateLastWeeksData();
 
 
 
@@ -47,13 +50,16 @@ const domUpdates = {
   },
 
   findMostCurrentDate: (dataSet) => {
-    return dataSet[dataSet.length - 1].date;
+    let sortedData = dataSet.sort((a, b) => parseInt(a.date) - parseInt(b.date));
+    return sortedData[sortedData.length - 1].date;
   },
 
-  //
-  // populateLastWeeksData: () => {
-  //
-  // },
+
+  populateLastWeeksData: () => {
+      historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
+      // addInfoToSidebar(currentUser, userRepo);
+
+  },
 
   addInfoToSidebar: (userRepo) => {
     sidebarName.innerText = currentUser.name;
@@ -72,9 +78,8 @@ const domUpdates = {
   },
 
   makeWinnerID: (activityData) => {
-    let todaysDate = domUpdates.findMostCurrentDate(activityData);
-    let weiner = activity.getWinnerId(currentUser, todaysDate, userRepo);
-    console.log(weiner);
+    let mostCurrentDateInDataSet = domUpdates.findMostCurrentDate(activityData);
+    let weiner = activity.getWinnerId(currentUser, mostCurrentDateInDataSet, userRepo);
   }
 
 

@@ -1,7 +1,5 @@
-
 import './css/style.scss';
 import domUpdates from './domUpdates';
-
 
 const usersData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
   .then(response => response.json())
@@ -31,7 +29,7 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
     const hydration = data[3];
     domUpdates.loadPage(users, sleep, activity, hydration);
   })
-  .catch(error => console.log(`There was an error obtaining all data ${error}`))
+  .catch(error => console.log(`There was an error ${error}`));
 
 
 
@@ -93,7 +91,7 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 //   let currentUser = getUserById(currentUserID, userRepo); **
 //   let today = makeToday(userRepo, currentUserID, hydrationData); ** No longer getting random date/ now current date
 
-//   let randomHistory = makeRandomDate(userRepo, currentUserID, hydrationData);
+//   let randomHistory = makeRandomDate(userRepo, currentUserID, hydrationData); ** No longer getting random date/ now current date
 
   // historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${todaysDate}`));
   // addInfoToSidebar(currentUser, userRepo);
