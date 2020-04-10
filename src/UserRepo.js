@@ -48,26 +48,36 @@ class UserRepo {
   // }
 
 
-  getToday(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet)[0].date;
-  };
+  // getToday(id, dataSet) { ***Didn't see this called anywhere
+  //   return this.makeSortedUserArray(id, dataSet)[0].date;
+  // };
+
+  //** getFirstWeek is only called once in Hydration.js in the mthod calculateFirstWeekOunces**
   getFirstWeek(id, dataSet) {
     return this.makeSortedUserArray(id, dataSet).slice(0, 7);
   };
+
+//** getWeekFromDate is called once in the workding method of userDataForWeek in Activity.js, once in the method calculateRandomWeekOunces in Hydration.js, and once in the working method of calculateWeekSleep in Sleep.js **
   getWeekFromDate(date, id, dataSet) {
     let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
     return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
   };
+
+//** chooseWeekDataForAllUsers is only called once in the method getFriendsAverageStepsForWeek in Acvitity.js, the methods it's used in sleep are never used **
   chooseWeekDataForAllUsers(dataSet, date) {
     return dataSet.filter(function(dataItem) {
       return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
     })
   };
+
+//** chooseDayDataForAllUsers is only used once in the method getAllUserAverageForDay in Activity.js, the methods it's used in sleep are never used **
   chooseDayDataForAllUsers(dataSet, date) {
     return dataSet.filter(function(dataItem) {
       return dataItem.date === date
     });
   }
+
+//** isolateUsernameAndRelevantData is called twice in the UserRepo.js in the methods of rankUserIDsbyRelevantDataValue and combineRankedUserIDsAndAveragedData. The methods it's used in sleep are never used **
   isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod) {
     return listFromMethod.reduce(function(objectSoFar, dataItem) {
       if (!objectSoFar[dataItem.userID]) {
@@ -78,6 +88,8 @@ class UserRepo {
       return objectSoFar;
     }, {});
   }
+
+//** rankUserIDsbyRelevantDataValue is called only once in UserRepo.js in the method combineRankedUserIDsAndAveragedData **
   rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod) {
     let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
     return Object.keys(sortedObjectKeys).sort(function(b, a) {
@@ -90,6 +102,8 @@ class UserRepo {
       }, 0) / sortedObjectKeys[b].length)
     });
   }
+
+//** combineRankedUserIDsAndAveragedData is only called once in the method getFriendsAverageStepsForWeek in Activity.js, the methods it's used in sleep are never used **
   combineRankedUserIDsAndAveragedData(dataSet, date, relevantData, listFromMethod) {
     let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
     let rankedUsersAndAverages = this.rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod)
