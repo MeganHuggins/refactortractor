@@ -33,9 +33,9 @@ const domUpdates = {
     domUpdates.populateLastWeeksData();
     hydration = new Hydration(hydrationData);
     console.log(hydration);
-    console.log(hydration.calculateAverageOunces(47));
-    console.log(hydration.calculateDailyOunces(47, "2019/06/17"));
-    console.log(hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id));
+    console.log('average daily oz all time', hydration.calculateAverageOunces(currentUser.id));
+    console.log('oz on specified date', hydration.calculateDailyOunces(currentUser.id, "2019/06/17"));
+    console.log('oz consumed daily latest week', hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id));
 
     // var sortedArray = userRepo.getDataSetForUser(sleepData);
 
