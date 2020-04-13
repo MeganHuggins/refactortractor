@@ -44,24 +44,27 @@ class Activity {
 
   // Friends
 
-  getFriendsActivity(user, userRepo) {
+  getFriendsActivity(currentUser, userRepo) {
     let data = this.activityData;
-    let userDatalist = user.friends.map(function(friend) {
-      return userRepo.getDataSetForUser(friend, data)
+    let userDatalist = currentUser.friends.map(friend => {
+      console.log('current friends', currentUser.friends);
+      return userRepo.getDataSetForFriends(data, friend)
     });
-    return userDatalist.reduce(function(arraySoFar, listItem) {
-      return arraySoFar.concat(listItem);
+    console.log('yo', userDatalist);
+    return userDatalist.reduce((acc, listItem) => {
+      return acc.concat(listItem);
     }, []);
+    console.log('sup', userDatalist);
   }
 
-  getFriendsAverageStepsForWeek(user, date, userRepo) {
-    let friendsActivity = this.getFriendsActivity(user, userRepo);
-    let timeline = userRepo.chooseWeekDataForAllUsers(friendsActivity, date);
-    return userRepo.combineRankedUserIDsAndAveragedData(friendsActivity, date, 'numSteps', timeline)
+  getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo) {
+    let friendsActivity = this.getFriendsActivity(currentUser, userRepo);
+    let timeline = userRepo.chooseWeekDataForAllUsers(friendsActivity, todaysDate);
+    return userRepo.combineRankedUserIDsAndAveragedData(friendsActivity, todaysDate, 'numSteps', timeline)
   }
 
-  showChallengeListAndWinner(user, date, userRepo) {
-    let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
+  showChallengeListAndWinner(currentUser, todaysDate, userRepo) {
+    let rankedList = this.getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo);
 
     return rankedList.map(function(listItem) {
       let userID = Object.keys(listItem)[0];
@@ -89,9 +92,11 @@ class Activity {
     })
   }
 
-  getWinnerId(user, date, userRepo) {
-    let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
+  getWinnerId(currentUser, todaysDate, userRepo) {
+    let rankedList = this.getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo);
+    console.log('rankedList', rankedList);
     let keysList = rankedList.map(listItem => Object.keys(listItem));
+    console.log('keyslist', keysList);
     return parseInt(keysList[0].join(''))
   }
 }

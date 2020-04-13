@@ -73,11 +73,9 @@ const domUpdates = {
 
   makeWinnerID: (activityData) => {
     let todaysDate = domUpdates.findMostCurrentDate(activityData);
-    let weiner = activity.getWinnerId(currentUser, todaysDate, userRepo);
-    console.log(weiner);
+    let winnerID = activity.getWinnerId(currentUser, todaysDate, userRepo);
+    console.log(winnerID);
   }
-
-
 
 }
 

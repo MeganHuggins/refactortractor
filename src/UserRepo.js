@@ -15,8 +15,11 @@ class UserRepo {
   //we want this in our refactored work
   getDataSetForUser(dataSet) {
     return dataSet.filter(userData => userData.userID === this.currentUser.id);
-
   };
+
+  getDataSetForFriends(dataSet, friend) {
+    return dataSet.filter(friendData => friendData.userID === friend);
+  }
 
   calculateAverageStepGoal() {
     var totalStepGoal = this.users.reduce((sumSoFar, data) => {
