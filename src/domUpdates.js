@@ -5,7 +5,7 @@ import Sleep from './Sleep';
 import Hydration from './Hydration';
 import Activity from './Activity';
 
-let userRepo, currentUser, activity, mostCurrentDateInDataSet;
+let userRepo, currentUser, activity, mostCurrentDateInDataSet, hydration;
 
 // let headerText = document.getElementById('headerText');
 // let sidebarName = document.getElementById('sidebarName');
@@ -31,6 +31,9 @@ const domUpdates = {
     domUpdates.addInfoToSidebar(userRepo);
     // domUpdates.makeWinnerID(activityData);
     domUpdates.populateLastWeeksData();
+    hydration = new Hydration(hydrationData);
+    console.log(hydration);
+    console.log(hydration.calculateAverageOunces(47));
 
 
 

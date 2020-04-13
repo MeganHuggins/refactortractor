@@ -4,9 +4,12 @@ class Hydration {
   }
   calculateAverageOunces(id) {
     let foundHydrationDataById = this.hydrationData.filter((data) => id === data.userID);
-    return foundHydrationDataById.reduce((totalOzConsumed, currentDay) => {
-      return totalOzConsumed += currentDay.numOunces;
-    }, 0) / foundHydrationDataById.length;
+    let totalFluidConsumedAllTime = foundHydrationDataById.reduce((totalOzConsumed, currentDay) => {
+      totalOzConsumed += currentDay.numOunces;
+      return totalOzConsumed;
+    }, 0);
+    return Math.round(totalFluidConsumedAllTime / foundHydrationDataById.length);
+    // return  (foundHydrationDataById.length).toFixed(0);
   }
   calculateDailyOunces(id, date) {
     let foundOuncesByDate = this.hydrationData.find((data) => id === data.userID && date === data.date);
