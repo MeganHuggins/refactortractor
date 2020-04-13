@@ -14,6 +14,7 @@ let userAddress = document.getElementById('userAddress');
 let userEmail = document.getElementById('userEmail');
 let userStridelength = document.getElementById('userStridelength');
 let friendList = document.getElementById('friendList');
+let userStairsToday = document.getElementById('userStairsToday');
 
 
 const domUpdates = {
@@ -28,6 +29,7 @@ const domUpdates = {
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
     domUpdates.makeWinnerID(activityData);
+    domUpdates.addActivityInfo(activityData)
 
 
 
@@ -74,8 +76,12 @@ const domUpdates = {
   makeWinnerID: (activityData) => {
     let todaysDate = domUpdates.findMostCurrentDate(activityData);
     let winnerID = activity.getWinnerId(currentUser, todaysDate, userRepo);
-    console.log(winnerID);
-  }
+
+  },
+
+  addActivityInfo: (activityData, userRepo) => {
+    userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(userRepo)}</span></p>`)
+  },
 
 }
 

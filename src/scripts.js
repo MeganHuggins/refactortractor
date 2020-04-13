@@ -145,14 +145,15 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 
 // function makeWinnerID(activityInfo, user, dateString, userStorage){
 //   return activityInfo.getWinnerId(user, dateString, userStorage)
-// }
+// }**DONE!**
 
-// function makeToday(userRepo, currentUserID, hydrationData) { ***All ready have this?? Ask partners**
+// function makeToday(userRepo, currentUserID, hydrationData) {
 //   var sortedArray = userRepo.makeSortedUserArray(currentUserID, hydrationData);
 //   return sortedArray[0].date;
 //   makeRandomDate(userRepo, currentUserID, hydrationData);
-// }
+// }**Already doing this with findMostCurrentDate in domUpdates**
 //
+
 // function makeRandomDate(userStorage, id, dataSet) {
 //   var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
 //   return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
@@ -187,6 +188,8 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 //   return method.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
 // }
 //
+
+
 // function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
 //   userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
 //

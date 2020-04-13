@@ -17,9 +17,9 @@ class UserRepo {
     return dataSet.filter(userData => userData.userID === this.currentUser.id);
   };
 
-  getDataSetForFriends(dataSet, friend) {
-    return dataSet.filter(friendData => friendData.userID === friend);
-  }
+  getDataSetForFriends(dataSet, friends) {
+    return dataSet.filter(friendData => friendData.userID === friends);
+  };
 
   calculateAverageStepGoal() {
     var totalStepGoal = this.users.reduce((sumSoFar, data) => {
@@ -29,7 +29,6 @@ class UserRepo {
   };
 
   getDataFromPastWeek(dataSet, date) {
-
     let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
     todaysDate = domUpdates.findMostCurrentDate(userDataSet);
 
@@ -40,6 +39,17 @@ class UserRepo {
     return weeksWorthOfData;
   };
 
+  getFriendDataFromPastWeek(currentUser, dataSet, date) {
+    let userDataSet = currentUser.friends.map(friend => {
+      return this.getDataSetForFriends(dataSet, friend)
+    })
+    .sort((a, b) => parseInt(a.date) - parseInt(b.date));
+
+    todaysDate = domUpdates.findMostCurrentDate(userDataSet);
+    let indexOfCurrentDate = userDataSet.indexOf(userDataSet.find(data => data.date === todaysDate));
+    let weeksWorthOfData = userDataSet.splice((indexOfCurrentDate - 7), 7);
+    return weeksWorthOfData;
+  };
 
   // makeSortedUserArray(user, dataSet) {
   //   let selectedID = user.userData.id;
@@ -74,8 +84,8 @@ class UserRepo {
   };
 
 //** chooseDayDataForAllUsers is only used once in the method getAllUserAverageForDay in Activity.js, the methods it's used in sleep are never used **
-  chooseDayDataForAllUsers(dataSet, date) {
-    return dataSet.filter(function(dataItem) {
+  chooseDayDataForAllUsers(activityData, date) {
+    return activityData.filter(dataItem => {
       return dataItem.date === date
     });
   }

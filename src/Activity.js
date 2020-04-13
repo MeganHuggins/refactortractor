@@ -28,13 +28,13 @@ class Activity {
   // getStairRecord(id) {
   //   return this.activityData.filter(data => id === data.userID).reduce((acc, elem) => (elem.flightsOfStairs > acc) ? elem.flightsOfStairs : acc, 0);
   // }
-  getAllUserAverageForDay(date, userRepo, relevantData) {
-    let selectedDayData = userRepo.chooseDayDataForAllUsers(this.activityData, date);
+  getAllUserAverageForDay(currentDate, userRepo, todaysDate) {
+    let selectedDayData = userRepo.chooseDayDataForAllUsers(activityData, date);
     return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
   }
 
-  userDataForToday(id, date, userRepo, relevantData) {
-    let userData = userRepo.getDataSetForUser(id, this.activityData);
+  userDataForToday(id, todaysDate, userRepo, activityData) {
+    let userData = userRepo.getDataSetForUser(activityData);
     return userData.find(data => data.date === date)[relevantData];
   }
 
@@ -46,20 +46,18 @@ class Activity {
 
   getFriendsActivity(currentUser, userRepo) {
     let data = this.activityData;
-    let userDatalist = currentUser.friends.map(friend => {
-      console.log('current friends', currentUser.friends);
+    let userDataList = currentUser.friends.map(friend => {
       return userRepo.getDataSetForFriends(data, friend)
     });
-    console.log('yo', userDatalist);
-    return userDatalist.reduce((acc, listItem) => {
+    console.log('userDataList', userDataList);
+    return userDataList.reduce((acc, listItem) => {
       return acc.concat(listItem);
     }, []);
-    console.log('sup', userDatalist);
   }
 
   getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo) {
     let friendsActivity = this.getFriendsActivity(currentUser, userRepo);
-    let timeline = userRepo.chooseWeekDataForAllUsers(friendsActivity, todaysDate);
+    let timeline = userRepo.getFriendDataFromPastWeek(currentUser, friendsActivity, todaysDate);
     return userRepo.combineRankedUserIDsAndAveragedData(friendsActivity, todaysDate, 'numSteps', timeline)
   }
 
@@ -93,10 +91,8 @@ class Activity {
   }
 
   getWinnerId(currentUser, todaysDate, userRepo) {
-    let rankedList = this.getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo);
-    console.log('rankedList', rankedList);
-    let keysList = rankedList.map(listItem => Object.keys(listItem));
-    console.log('keyslist', keysList);
+    let rankedFriendsList = this.getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo);
+    let keysList = rankedFriendsList.map(listItem => Object.keys(listItem));
     return parseInt(keysList[0].join(''))
   }
 }
