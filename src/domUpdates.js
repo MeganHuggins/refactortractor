@@ -34,8 +34,8 @@ const domUpdates = {
     hydration = new Hydration(hydrationData);
     console.log(hydration);
     console.log(hydration.calculateAverageOunces(47));
-
-
+    console.log(hydration.calculateDailyOunces(47, "2019/06/17"));
+    console.log(hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id));
 
     // var sortedArray = userRepo.getDataSetForUser(sleepData);
 
@@ -49,6 +49,7 @@ const domUpdates = {
     }
     return new User(users[0]);
   },
+
 
   findMostCurrentDate: (dataSet) => {
     let sortedData = dataSet.sort((a, b) => parseInt(a.date) - parseInt(b.date));
