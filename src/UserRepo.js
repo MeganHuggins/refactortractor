@@ -1,16 +1,12 @@
 import domUpdates from './domUpdates';
 let todaysDate;
+//**should we pass todays date into constructor?**
 
 class UserRepo {
   constructor(users, currentUser) {
     this.users = users;
     this.currentUser = currentUser;
   };
-
-  // getDataFromID(id) {
-  //   return this.users.find((user) => id === user.id);
-  // };
-
 
   //we want this in our refactored work
   getDataSetForUser(dataSet) {
@@ -32,14 +28,13 @@ class UserRepo {
     let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
     todaysDate = domUpdates.findMostCurrentDate(userDataSet);
 
-    // find index of date
     let indexOfCurrentDate = userDataSet.indexOf(userDataSet.find(data => data.date === todaysDate));
-    // then work back 7 days from date we are working with
+
     let weeksWorthOfData = userDataSet.splice((indexOfCurrentDate - 7), 7);
     return weeksWorthOfData;
   };
 
-  getFriendDataFromPastWeek(currentUser, dataSet, date) {
+  getFriendDataFromPastWeek(currentUser, dataSet) {
     let userDataSet = currentUser.friends.map(friend => {
       return this.getDataSetForFriends(dataSet, friend)
     })
@@ -50,17 +45,6 @@ class UserRepo {
     let weeksWorthOfData = userDataSet.splice((indexOfCurrentDate - 7), 7);
     return weeksWorthOfData;
   };
-
-  // makeSortedUserArray(user, dataSet) {
-  //   let selectedID = user.userData.id;
-  //   console.log('selectedID: ', selectedID);
-  //
-  //   let sortedByDate = selectedID.sort((a, b) => new Date(b.date) - new Date(a.date));
-  //   console.log(sortedByDate);
-  //   return sortedByDate;
-  // }
-
-
   // getToday(id, dataSet) { ***Didn't see this called anywhere
   //   return this.makeSortedUserArray(id, dataSet)[0].date;
   // };
@@ -77,11 +61,11 @@ class UserRepo {
   };
 
 //** chooseWeekDataForAllUsers is only called once in the method getFriendsAverageStepsForWeek in Acvitity.js, the methods it's used in sleep are never used **
-  chooseWeekDataForAllUsers(dataSet, date) {
-    return dataSet.filter(function(dataItem) {
-      return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
-    })
-  };
+  // chooseWeekDataForAllUsers(dataSet, date) {
+  //   return dataSet.filter(function(dataItem) {
+  //     return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
+  //   })
+  // };** Changed this to getFriendDataFromPastWeek**
 
 //** chooseDayDataForAllUsers is only used once in the method getAllUserAverageForDay in Activity.js, the methods it's used in sleep are never used **
   chooseDayDataForAllUsers(activityData, date) {
@@ -90,36 +74,44 @@ class UserRepo {
     });
   }
 
-//** isolateUsernameAndRelevantData is called twice in the UserRepo.js in the methods of rankUserIDsbyRelevantDataValue and combineRankedUserIDsAndAveragedData. The methods it's used in sleep are never used **
-  isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod) {
-    return listFromMethod.reduce(function(objectSoFar, dataItem) {
-      if (!objectSoFar[dataItem.userID]) {
-        objectSoFar[dataItem.userID] = [dataItem[relevantData]]
-      } else {
-        objectSoFar[dataItem.userID].push(dataItem[relevantData])
-      }
-      return objectSoFar;
+//isolateUsernameAndRelevantData is called twice in the UserRepo.js in the methods of rankUserIDsbyRelevantDataValue and combineRankedUserIDsAndAveragedData. The methods it's used in sleep are never used
+
+  isolateUsernameAndRelevantData(friendsActivity, todaysDate, relevantData, timeline) {
+    return timeline.reduce(function(acc, dataItem) {
+      dataItem.forEach(item => {
+        if (!acc[item.userID]) {
+          acc[item.userID] = [item[relevantData]]
+        } else {
+          acc[item.userID].push(item[relevantData])
+        }
+      })
+      return acc;
     }, {});
   }
 
-//** rankUserIDsbyRelevantDataValue is called only once in UserRepo.js in the method combineRankedUserIDsAndAveragedData **
-  rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
-    return Object.keys(sortedObjectKeys).sort(function(b, a) {
-      return (sortedObjectKeys[a].reduce(function(sumSoFar, sleepQualityValue) {
-        sumSoFar += sleepQualityValue
-        return sumSoFar;
-      }, 0) / sortedObjectKeys[a].length) - (sortedObjectKeys[b].reduce(function(sumSoFar, sleepQualityValue) {
-        sumSoFar += sleepQualityValue
-        return sumSoFar;
-      }, 0) / sortedObjectKeys[b].length)
-    });
+//rankUserIDsbyRelevantDataValue is called only once in UserRepo.js in the method combineRankedUserIDsAndAveragedData
+  rankUserIDsbyRelevantDataValue(friendsActivity, todaysDate, relevantData, timeline) {
+    let sortedObjectKeys = this.isolateUsernameAndRelevantData(friendsActivity, todaysDate, 'numSteps', timeline);
+    console.log('sortedObjectKeys', sortedObjectKeys);
+
+    return Object.keys(sortedObjectKeys).sort((a, b) => {
+      return sortedObjectKeys[a].reduce((acc, curr) => {
+      //   acc += curr
+      //   return acc;
+      // }, 0) / sortedObjectKeys[a].length) - (sortedObjectKeys[b].reduce(function(acc, curr) {
+      //   acc += curr
+      //   return acc;
+      // }, 0) / sortedObjectKeys[b].length)
+      }, 0)
+    })
   }
 
-//** combineRankedUserIDsAndAveragedData is only called once in the method getFriendsAverageStepsForWeek in Activity.js, the methods it's used in sleep are never used **
-  combineRankedUserIDsAndAveragedData(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
-    let rankedUsersAndAverages = this.rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod)
+//combineRankedUserIDsAndAveragedData is only called once in the method getFriendsAverageStepsForWeek in Activity.js, the methods it's used in sleep are never used
+
+  combineRankedUserIDsAndAveragedData(friendsActivity, todaysDate, releventData, timeline) {
+
+    let rankedUsersAndAverages = this.rankUserIDsbyRelevantDataValue(friendsActivity, todaysDate, releventData, timeline);
+
     return rankedUsersAndAverages.map(function(rankedUser) {
       rankedUser = {
         [rankedUser]: sortedObjectKeys[rankedUser].reduce(

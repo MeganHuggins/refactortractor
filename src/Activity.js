@@ -1,46 +1,21 @@
 class Activity {
   constructor(activityData) {
     this.activityData = activityData
-  }
-  // getMilesFromStepsByDate(id, date, userRepo) {
-  //   let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
-  //   return parseFloat(((userStepsByDate.numSteps * userRepo.strideLength) / 5280).toFixed(1));
-  // }
-  // getActiveMinutesByDate(id, date) {
-  //   let userActivityByDate = this.activityData.find(data => id === data.userID && date === data.date);
-  //   return userActivityByDate.minutesActive;
-  // }
-  // calculateActiveAverageForWeek(id, date, userRepo) {
-  //   return parseFloat((userRepo.getWeekFromDate(date, id, this.activityData).reduce((acc, elem) => {
-  //     return acc += elem.minutesActive;
-  //   }, 0) / 7).toFixed(1));
-  // }
-  // accomplishStepGoal(id, date, userRepo) {
-  //   let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
-  //   if (userStepsByDate.numSteps === userRepo.dailyStepGoal) {
-  //     return true;
-  //   }
-  //   return false
-  // }
-  // getDaysGoalExceeded(id, userRepo) {
-  //   return this.activityData.filter(data => id === data.userID && data.numSteps > userRepo.dailyStepGoal).map(data => data.date);
-  // }
-  // getStairRecord(id) {
-  //   return this.activityData.filter(data => id === data.userID).reduce((acc, elem) => (elem.flightsOfStairs > acc) ? elem.flightsOfStairs : acc, 0);
-  // }
-  getAllUserAverageForDay(currentDate, userRepo, todaysDate) {
-    let selectedDayData = userRepo.chooseDayDataForAllUsers(activityData, date);
+  };
+
+  getAllUserAverageForDay(activityData, todaysDate, userRepo, relevantData) {
+    let selectedDayData = userRepo.chooseDayDataForAllUsers(activityData, todaysDate);
     return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
-  }
+  };
 
-  userDataForToday(id, todaysDate, userRepo, activityData) {
+  userDataForToday(activityData, todaysDate, userRepo, relevantData) {
     let userData = userRepo.getDataSetForUser(activityData);
-    return userData.find(data => data.date === date)[relevantData];
-  }
+    return userData.find(data => data.date === todaysDate)[relevantData];
+  };
 
-  userDataForWeek(id, date, userRepo, releventData) {
-    return userRepo.getWeekFromDate(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
-  }
+  // userDataForWeek(id, date, userRepo, releventData) {
+  //   return userRepo.getWeekFromDate(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
+  // }**Using the userRepo.getDataFromPastWeek method instead**
 
   // Friends
 
@@ -49,7 +24,6 @@ class Activity {
     let userDataList = currentUser.friends.map(friend => {
       return userRepo.getDataSetForFriends(data, friend)
     });
-    console.log('userDataList', userDataList);
     return userDataList.reduce((acc, listItem) => {
       return acc.concat(listItem);
     }, []);
@@ -57,16 +31,19 @@ class Activity {
 
   getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo) {
     let friendsActivity = this.getFriendsActivity(currentUser, userRepo);
+    // console.log('friendsActivity', friendsActivity);
     let timeline = userRepo.getFriendDataFromPastWeek(currentUser, friendsActivity, todaysDate);
+    // console.log('timeline', timeline);
     return userRepo.combineRankedUserIDsAndAveragedData(friendsActivity, todaysDate, 'numSteps', timeline)
   }
 
-  showChallengeListAndWinner(currentUser, todaysDate, userRepo) {
+  showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData) {
     let rankedList = this.getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo);
+    console.log('rankedList', rankedList);
 
     return rankedList.map(function(listItem) {
       let userID = Object.keys(listItem)[0];
-      let userName = userRepo.getDataFromID(parseInt(userID)).name;
+      let userName = userRepo.getDataSetForUser(activityData).name;
       return `${userName}: ${listItem[userID]}`
     })
   }
