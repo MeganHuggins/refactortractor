@@ -29,9 +29,9 @@ const domUpdates = {
     activity = new Activity(activityData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
-    domUpdates.makeWinnerID(activityData);
     domUpdates.addActivityInfo(activityData);
-    domUpdates.addFriendGameInfo(activityData)
+    // domUpdates.makeWinnerID(activityData);
+    // domUpdates.addFriendGameInfo(activityData)
   },
 
   findRandomUser: (users) => {
@@ -80,20 +80,20 @@ const domUpdates = {
     return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
   },
 
-  makeWinnerID: (activityData) => {
-    let winnerID = activity.getWinnerId(currentUser, todaysDate, userRepo);
-  },
+  // makeWinnerID: (activityData) => {
+  //   let winnerID = activity.getWinnerId(currentUser, todaysDate, userRepo);
+  // },
 
   addActivityInfo: (activityData) => {
-    userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(activityData, todaysDate, userRepo, 'flightsOfStairs')}</span></p>`);
+    userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'flightsOfStairs')}</span></p>`);
 
     avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'flightsOfStairs')}</span></p>`);
 
-    userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, todaysDate, userRepo, 'numSteps')}</span></p>`);
+    userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'numSteps')}</span></p>`);
 
     avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'numSteps')}</span></p>`);
 
-    userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, todaysDate, userRepo, 'minutesActive')}</span></p>`);
+    userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'minutesActive')}</span></p>`);
 
     avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'minutesActive')}</span></p>`);
 
@@ -106,9 +106,9 @@ const domUpdates = {
     // bestUserSteps.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getFriendDataFromPastWeek(winnerID, activityData), "numSteps"));
   },
 
-  addFriendGameInfo: (activityData) => {
-    friendChallengeListToday.insertAdjacentHTML("afterBegin", domUpdates.makeFriendChallengeHTML(activityData, userRepo, activity.showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData)));
-  },
+  // addFriendGameInfo: (activityData) => {
+  //   friendChallengeListToday.insertAdjacentHTML("afterBegin", domUpdates.makeFriendChallengeHTML(activityData, userRepo, activity.showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData)));
+  // },
 
 }
 

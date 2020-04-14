@@ -8,14 +8,12 @@ class Activity {
     return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
   };
 
-  userDataForToday(activityData, todaysDate, userRepo, relevantData) {
-    let userData = userRepo.getDataSetForUser(activityData);
-    return userData.find(data => data.date === todaysDate)[relevantData];
+  userDataForToday(dataSet, date, userID, relevantData) {
+    let allDataForCurrentUser = dataSet.filter(data => data.userID === userID);
+    let dataForSpecificDate = allDataForCurrentUser.find(data => data.date === date);
+    console.log(dataForSpecificDate);
+    return dataForSpecificDate[relevantData];
   };
-
-  // userDataForWeek(id, date, userRepo, releventData) {
-  //   return userRepo.getWeekFromDate(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
-  // }**Using the userRepo.getDataFromPastWeek method instead**
 
   // Friends
 
@@ -31,15 +29,12 @@ class Activity {
 
   getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo) {
     let friendsActivity = this.getFriendsActivity(currentUser, userRepo);
-    // console.log('friendsActivity', friendsActivity);
-    let timeline = userRepo.getFriendDataFromPastWeek(currentUser, friendsActivity, todaysDate);
-    // console.log('timeline', timeline);
-    return userRepo.combineRankedUserIDsAndAveragedData(friendsActivity, todaysDate, 'numSteps', timeline)
+    let timeline = userRepo.getFriendDataFromPastWeek(friendsActivity);
+    return userRepo.combineFriendsRankingWithAveragedData(friendsActivity, todaysDate, 'numSteps', timeline)
   }
 
   showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData) {
     let rankedList = this.getFriendsAverageStepsForWeek(currentUser, todaysDate, userRepo);
-    console.log('rankedList', rankedList);
 
     return rankedList.map(function(listItem) {
       let userID = Object.keys(listItem)[0];
