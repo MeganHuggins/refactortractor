@@ -102,10 +102,6 @@ const domUpdates = {
     return weekOfUserActivityData.map(day => `<li class="historical-list-listItem">On ${day.date} you did ${day[relevantData]} ${typeOfActivity}</li>`).join('');
   },
 
-  makeFriendChallengeHTML: (id, activityInfo, userStorage, method) => {
-    return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
-  },
-
   makeWinnerName: (activityData, users) => {
     let winnerID = parseInt(activity.getWinnerId(currentUser, todaysDate, userRepo));
     let winnerInfo = userRepo.users.find(user => user.id === winnerID);
@@ -147,10 +143,6 @@ const domUpdates = {
    $('#hydrationThisWeek').prepend(domUpdates.makeHydrationHTML(currentUser.id, hydration, userRepo, hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id)));
 
  },
-
-  // addFriendGameInfo: (activityData) => {
-  //   friendChallengeListToday.insertAdjacentHTML("afterBegin", domUpdates.makeFriendChallengeHTML(activityData, userRepo, activity.showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData)));
-  // },
 
   postNewActivityForm: (e) => {
     e.preventDefault();

@@ -36,7 +36,7 @@ class UserRepo {
     return activityData.filter(dataItem => {
       return dataItem.date === date;
     });
-  }
+  };
 
   createFriendsDataSetObj(friendsActivity, todaysDate, relevantData) {
     return friendsActivity.reduce((acc, dataItem) => {
@@ -49,7 +49,7 @@ class UserRepo {
       })
       return acc;
     }, {});
-  }
+  };
 
   rankFriendsByDataSets(friendsActivity, todaysDate, relevantData) {
     let friendsDataSets = this.createFriendsDataSetObj(friendsActivity, todaysDate, 'numSteps');
@@ -63,11 +63,11 @@ class UserRepo {
         return acc;
       }, 0) / friendsDataSets[a].length)
     });
-  }
+  };
 
   friendStepsRankings(friendsActivity, todaysDate, releventData) {
     return this.rankFriendsByDataSets(friendsActivity, todaysDate, releventData);
   }
-}
+};
 
 export default UserRepo;
