@@ -7,15 +7,6 @@ import Activity from './Activity';
 
 
 let userRepo, currentUser, activity, todaysDate, winnerID;
-let headerText = document.getElementById('headerText');
-let sidebarName = document.getElementById('sidebarName');
-let stepGoalCard = document.getElementById('stepGoalCard');
-let userAddress = document.getElementById('userAddress');
-let userEmail = document.getElementById('userEmail');
-let userStridelength = document.getElementById('userStridelength');
-let friendList = document.getElementById('friendList');
-let userStairsToday = document.getElementById('userStairsToday');
-
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {

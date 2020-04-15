@@ -60,20 +60,10 @@ class UserRepo {
     return this.makeSortedUserArray(id, dataSet).slice(0, 7);
   };
 
-//** getWeekFromDate is called once in the workding method of userDataForWeek in Activity.js, once in the method calculateRandomWeekOunces in Hydration.js, and once in the working method of calculateWeekSleep in Sleep.js **
   getWeekFromDate(date, id, dataSet) {
     let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
     return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
   };
-
-//** chooseWeekDataForAllUsers is only called once in the method getFriendsAverageStepsForWeek in Acvitity.js, the methods it's used in sleep are never used **
-  // chooseWeekDataForAllUsers(dataSet, date) {
-  //   return dataSet.filter(function(dataItem) {
-  //     return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
-  //   })
-  // };** Changed this to getFriendDataFromPastWeek**
-
-//** chooseDayDataForAllUsers is only used once in the method getAllUserAverageForDay in Activity.js, the methods it's used in sleep are never used **
 
   chooseDayDataForAllUsers(activityData, date) {
     return activityData.filter(dataItem => {
