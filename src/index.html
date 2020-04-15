@@ -42,6 +42,35 @@
       </section>
     </section>
     <section class="body-main-infoContainter">
+
+      <section class="post-form-container">
+        <form class="post-form">
+          <h4 id="add-activity-header">Add New Activity</h4>
+          <div id="activityTodayDate">
+            <label id="activityToday">Date</label>
+            <input  class="activity-input" id="calendar" type='date'>
+          </div>
+          <div id="activityTodayHydration">
+            <label id="">Hydration</label>
+            <input class="activity-input" id="hydration-ounces" value="number of ounces"  onfocus="this.value=''">
+          </div>
+          <div id="activityTodayActivity">
+            <label id="">Steps</label>
+            <input class="activity-input" id="num-steps" value="number of steps"  onfocus="this.value=''">
+            <input class="activity-input" id="min-active" value="minutes active"  onfocus="this.value=''">
+            <input class="activity-input" id="flights-stairs" value="flights of stairs"  onfocus="this.value=''">
+          </div>
+          <div id="activityTodaySleep">
+            <label id="">Sleep</label>
+            <input class="activity-input" id="sleep-hours" value="hours of sleep"  onfocus="this.value=''">
+            <input class="activity-input" id="sleep-quality" value="sleep quality"  onfocus="this.value=''">
+          </div>
+          <button type="submit" id="submit-new-activity-button">submit</button>
+        </form>
+      </section>
+
+
+
       <section class="main-column-hydration">
         <section class="infoContainer-cardContainer-card-horizontal">
           <div class="card-today-hydration">
@@ -140,13 +169,6 @@
             <p class="thisWeek">Hours of sleep this week</p>
             <div class="sidebar-header-line"></div>
             <ul class="card-vertical-list" id="sleepThisWeek">
-              <!-- Sleep week list goes here -->
-            </ul>
-          </div>
-          <div class="card-history-sleep">
-            <p class="historicalWeek"></p>
-            <div class="sidebar-header-line"></div>
-            <ul class="card-vertical-list" id="sleepEarlierWeek">
               <!-- Sleep week list goes here -->
             </ul>
           </div>

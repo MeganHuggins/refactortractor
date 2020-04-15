@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import moment from 'moment';
 import User from './User';
 import UserRepo from './UserRepo';
 import Sleep from './Sleep';
@@ -6,14 +7,10 @@ import Hydration from './Hydration';
 import Activity from './Activity';
 
 
-let userRepo, currentUser, activity, todaysDate, winnerID, hydration;
+let userRepo, currentUser, activity, todaysDate, winnerID,  hydration, sleep, formattedDate;
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
-    // today = moment().format('YYYY-MM-DD');
-    // sleepData = new Sleep(sleepData);
-    // activityData = new Activity(activityData);
-    // hydrationData = new Hydration(hydrationData);
     todaysDate = domUpdates.findMostCurrentDate(activityData);
     currentUser = domUpdates.findRandomUser(users);
     userRepo = new UserRepo(users, currentUser);
@@ -21,11 +18,13 @@ const domUpdates = {
     hydration = new Hydration(hydrationData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
+
+    hydration = new Hydration(hydrationData);
+    sleep = new Sleep(sleepData);
+    domUpdates.addSleepInfo();
+    $('#submit-new-activity-button').click((e) => domUpdates.postNewActivityForm(e));
     domUpdates.addActivityInfo(activityData);
     domUpdates.addHydrationInfo(hydrationData);
-    // domUpdates.makeWinnerName(activityData, users);
-    // domUpdates.addFriendGameInfo(activityData)
-
   },
 
   findRandomUser: (users) => {
@@ -56,6 +55,34 @@ const domUpdates = {
     return friends.map(friend => `<li class='historical-list-listItem'>${friend}</li>`).join('');
   },
 
+//   makeWinnerID: (activityData) => {
+//     let mostCurrentDateInDataSet = domUpdates.findMostCurrentDate(activityData);
+//     let weiner = activity.getWinnerId(currentUser, mostCurrentDateInDataSet, userRepo);
+//   },
+
+  addSleepInfo: () => {
+    const formattedDate = moment('2020/01/16', 'YYYY-MM-DD').format('MMM Do YYYY');
+    const currentUserSleepData = userRepo.getDataSetForUser(sleep.sleepData);
+    const hoursSlept = sleep.calculateDailySleep(currentUser, '2020/01/16');
+    const sleepQualityToday = sleep.calculateDailySleepQuality(currentUser, '2020/01/16');
+
+    !hoursSlept ?
+      $('#sleepToday').append(`<p>We have no sleep data for you ${formattedDate}</p>`) :
+        $('#sleepToday').append(`
+          <p>You slept <span class="number">${hoursSlept}</span> hours ${formattedDate}.</p>
+        `);
+    !sleepQualityToday ?
+      $('#sleepQualityToday').append(`<p>We have no sleep data for you ${formattedDate}</p>`) :
+        $('#sleepQualityToday').append(`<p>Your sleep quality was <span class="number">${sleepQualityToday}</span> out of 5.</p>`);
+
+    $('#sleepThisWeek').append(domUpdates.makeSleepHTML(sleep.calculateWeekSleep(currentUserSleepData, currentUser, userRepo)));
+  },
+
+  makeSleepHTML: (method) => {
+    formattedDate = moment('2020/01/16', 'YYYY-MM-DD').format('MMM Do YYYY');
+    return method.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
+  },
+
   makeWinnerHTML: (winnerName) => {
     let winner = winnerName
     return `<li class="historical-list-listItem">${winner} did the most steps</li>`;
@@ -80,10 +107,8 @@ const domUpdates = {
   },
 
   makeWinnerName: (activityData, users) => {
-    console.log('users', users);
     let winnerID = parseInt(activity.getWinnerId(currentUser, todaysDate, userRepo));
     let winnerInfo = userRepo.users.find(user => user.id === winnerID);
-    console.log('winnerInfo', winnerInfo);
     return winnerInfo.name
   },
 
@@ -121,15 +146,89 @@ const domUpdates = {
 
    $('#hydrationThisWeek').prepend(domUpdates.makeHydrationHTML(currentUser.id, hydration, userRepo, hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id)));
 
- }
+ },
 
   // addFriendGameInfo: (activityData) => {
   //   friendChallengeListToday.insertAdjacentHTML("afterBegin", domUpdates.makeFriendChallengeHTML(activityData, userRepo, activity.showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData)));
   // },
 
+  postNewActivityForm: (e) => {
+    e.preventDefault();
+    const dateInput = $('#calendar').val();
+    const numOuncesInput = parseInt($('#hydration-ounces').val());
+    const numStepsInput = parseInt($('#num-steps').val());
+    const minutesActiveInput = parseInt($('#min-active').val());
+    const flightsOfStairsInput = parseInt($('#flights-stairs').val());
+    const hoursSleepInput = parseInt($('#sleep-hours').val());
+    const sleepQualityInput = parseInt($('#sleep-quality').val());
+    formattedDate = moment(dateInput, 'YYYY-MM-DD').format('YYYY/MM/DD');
+
+    if (dateInput && numOuncesInput) {
+      domUpdates.postNewhydration(dateInput, numOuncesInput);
+    };
+
+    if (dateInput && numStepsInput && minutesActiveInput && flightsOfStairsInput) {
+      domUpdates.postNewSteps(dateInput, numStepsInput, minutesActiveInput, flightsOfStairsInput);
+    };
+
+    if (dateInput && hoursSleepInput && sleepQualityInput) {
+      domUpdates.postNewSleep(dateInput, hoursSleepInput, sleepQualityInput);
+    };
+  },
+
+  postNewhydration: (dateInput, numOuncesInput) => {
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "userID": currentUser.id,
+        "date": formattedDate,
+        "numOunces": numOuncesInput
+      }),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(`There was an error: ${error}`));
+  },
+
+  postNewSteps: (dateInput, numStepsInput, minutesActiveInput, flightsOfStairsInput) => {
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "userID": currentUser.id,
+        "date": formattedDate,
+        "numSteps": numStepsInput,
+        "minutesActive": minutesActiveInput,
+        "flightsOfStairs": flightsOfStairsInput
+      }),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(`There was an error: ${error}`));
+  },
+
+  postNewSleep: (dateInput, hoursSleepInput, sleepQualityInput) => {
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          "userID": currentUser.id,
+          "date": formattedDate,
+          "hoursSlept": hoursSleepInput,
+          "sleepQuality": sleepQualityInput
+      }),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(`There was an error: ${error}`));
+  },
 }
-
-
-
 
 export default domUpdates;

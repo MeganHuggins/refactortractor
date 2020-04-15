@@ -7,7 +7,6 @@ class UserRepo {
     this.currentUser = currentUser;
   };
 
-  //we want this in our refactored work
   getDataSetForUser(dataSet) {
     return dataSet.filter(userData => userData.userID === this.currentUser.id);
   };
@@ -56,14 +55,14 @@ class UserRepo {
   // };
 
   //** getFirstWeek is only called once in Hydration.js in the mthod calculateFirstWeekOunces**
-  getFirstWeek(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet).slice(0, 7);
-  };
+  // getFirstWeek(id, dataSet) {
+  //   return this.makeSortedUserArray(id, dataSet).slice(0, 7);
+  // };
 
-  getWeekFromDate(date, id, dataSet) {
-    let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-    return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
-  };
+  // getWeekFromDate(date, id, dataSet) {
+  //   let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
+  //   return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+  // };
 
   chooseDayDataForAllUsers(activityData, date) {
     return activityData.filter(dataItem => {
@@ -85,9 +84,7 @@ class UserRepo {
   }
 
   rankFriendsByDataSets(friendsActivity, todaysDate, relevantData) {
-
     let friendsDataSets = this.createFriendsDataSetObj(friendsActivity, todaysDate, 'numSteps');
-    console.log('friendsDataSets', friendsDataSets);
 
     return Object.keys(friendsDataSets).sort((a, b) => {
       return (friendsDataSets[b].reduce((acc, curr) => {
