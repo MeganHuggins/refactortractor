@@ -1,13 +1,13 @@
 import domUpdates from './domUpdates';
-let todaysDate;
+// let todaysDate;
 
 class UserRepo {
-  constructor(users, currentUser) {
+  constructor(users, currentUser, todaysDate) {
     this.users = users;
     this.currentUser = currentUser;
+    this.todaysDate = todaysDate;
   };
 
-  //we want this in our refactored work
   getDataSetForUser(dataSet) {
     return dataSet.filter(userData => userData.userID === this.currentUser.id);
   };
@@ -27,7 +27,6 @@ class UserRepo {
   getDataFromPastWeek(dataSet, todayDate) {
     let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
     todaysDate = domUpdates.findMostCurrentDate(userDataSet);
-
     let indexOfCurrentDate = userDataSet.indexOf(userDataSet.find(data => data.date === todaysDate));
     let weeksWorthOfData = userDataSet.splice((indexOfCurrentDate - 7), 7);
     return weeksWorthOfData;
@@ -50,20 +49,15 @@ class UserRepo {
   //   }, {})
   //
   // };
-
-  // getToday(id, dataSet) { ***Didn't see this called anywhere
-  //   return this.makeSortedUserArray(id, dataSet)[0].date;
-  // };
-
-  //** getFirstWeek is only called once in Hydration.js in the mthod calculateFirstWeekOunces**
-  getFirstWeek(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet).slice(0, 7);
-  };
-
-//** getWeekFromDate is called once in the workding method of userDataForWeek in Activity.js, once in the method calculateRandomWeekOunces in Hydration.js, and once in the working method of calculateWeekSleep in Sleep.js **
+  
   getWeekFromDate(date, id, dataSet) {
     let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
     return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+  };
+
+  chooseDayDataForAllUsers(activityData, date) {
+    return activityData.filter(dataItem => {
+    return dataItem.date === date;
   };
 
 //** chooseWeekDataForAllUsers is only called once in the method getFriendsAverageStepsForWeek in Acvitity.js, the methods it's used in sleep are never used **

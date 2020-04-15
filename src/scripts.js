@@ -1,7 +1,11 @@
-
 import './css/style.scss';
 import domUpdates from './domUpdates';
-
+import './images/person walking on path.jpg';
+import './images/The Rock.jpg';
+// import user from './User';
+// import sleep from './Sleep';
+// import activity from './Activity';
+// import hydration from './Hydration';
 
 const usersData = fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData')
   .then(response => response.json())
@@ -29,11 +33,14 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
     const sleep = data[1];
     const activity = data[2];
     const hydration = data[3];
+    // const user = new User();
+    // const sleep = new Sleep(data[1]);
+    // const activity = new Activity(data[2]);
+    // const hydration = new Hydration(data[3]);
+    // let random user = domUpdates.findRandomUser(data[0]);
     domUpdates.loadPage(users, sleep, activity, hydration);
   })
-  .catch(error => console.log(`There was an error obtaining all data ${error}`))
-
-
+  .catch(error => console.log(`There was an error ${error}`));
 
 // import './css/style.scss';
 // import './images/person walking on path.jpg';
@@ -94,9 +101,7 @@ Promise.all([usersData, sleepData, activityData, hydrationData])
 //   var currentUserID = pickUser(); **
 //   let currentUser = getUserById(currentUserID, userRepo); **
 //   let today = makeToday(userRepo, currentUserID, hydrationData); ** No longer getting random date/ now current date
-
   // let randomHistory = makeRandomDate(userRepo, currentUserID, hydrationData);
-  //
   // historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${todaysDate}`));
   // addInfoToSidebar(currentUser, userRepo);
 
