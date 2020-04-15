@@ -1,19 +1,10 @@
 import { expect } from 'chai';
-
 import Sleep from '../src/Sleep';
 import UserRepo from '../src/UserRepo';
 import User from '../src/User';
 
-describe('Sleep', function() {
-  let sleepData;
-  let sleep;
-  let user1;
-  let user2;
-  let user3;
-  let user4;
-  let user5;
-  let users;
-  let userRepo;
+describe.only('Sleep', function() {
+  let sleepData, sleep, user1, user2, user3, user4, user5, users, userRepo;
 
   beforeEach(function() {
     sleepData = [{

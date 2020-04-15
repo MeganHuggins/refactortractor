@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import UserRepo from '../src/userrepo';
+import UserRepo from '../src/UserRepo';
 import User from '../src/User';
 
 
