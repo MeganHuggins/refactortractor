@@ -31,9 +31,6 @@ class Sleep {
     let findSleepQualityByDate = this.sleepData.find((data) => user.id === data.userID && date === data.date);
     return findSleepQualityByDate.sleepQuality;
   }
-  calculateWeekSleep(date, user, userRepo) {
-    return userRepo.getDataFromPastWeek(this.sleepData, user.id).map((data) => `${data.date}: ${data.hoursSlept}`);
-  }
 
 }
 

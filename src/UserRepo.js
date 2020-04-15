@@ -23,7 +23,7 @@ class UserRepo {
     return totalStepGoal / this.users.length;
   };
 
-  getDataFromPastWeek(dataSet, todayDate) {
+  getDataFromPastWeek(dataSet) {
     let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
     todaysDate = domUpdates.findMostCurrentDate(userDataSet);
 
@@ -34,7 +34,7 @@ class UserRepo {
 
   chooseDayDataForAllUsers(activityData, date) {
     return activityData.filter(dataItem => {
-      return dataItem.date === date
+      return dataItem.date === date;
     });
   };
 

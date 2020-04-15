@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import UserRepo from '../src/userrepo';
+import UserRepo from '../src/UserRepo';
 import User from '../src/User';
 
 
@@ -57,7 +57,6 @@ describe('User Repo', function() {
     const users = [user1];
     const userRepo = new UserRepo(users);
 
-    console.log('here: ', userRepo.users[0]);
 
     expect(userRepo.users[0].id).to.equal(1);
   });

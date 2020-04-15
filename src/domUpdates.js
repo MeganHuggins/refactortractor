@@ -15,7 +15,7 @@ const domUpdates = {
     currentUser = domUpdates.findRandomUser(users);
     userRepo = new UserRepo(users, currentUser);
     activity = new Activity(activityData);
-    hydration = new Hydration(hydrationData);
+    hydration = new Hydration(hydrationData, userRepo);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
 
@@ -75,7 +75,7 @@ const domUpdates = {
       $('#sleepQualityToday').append(`<p>We have no sleep data for you ${formattedDate}</p>`) :
         $('#sleepQualityToday').append(`<p>Your sleep quality was <span class="number">${sleepQualityToday}</span> out of 5.</p>`);
 
-    $('#sleepThisWeek').append(domUpdates.makeSleepHTML(sleep.calculateWeekSleep(currentUserSleepData, currentUser, userRepo)));
+    $('#sleepThisWeek').append(domUpdates.makeSleepHTML(sleep.calculateWeekSleep(currentUserSleepData, userRepo)));
   },
 
   makeSleepHTML: (method) => {
@@ -181,7 +181,6 @@ const domUpdates = {
       }),
     })
     .then(response => response.json())
-    .then(data => console.log(data))
     .catch(error => console.log(`There was an error: ${error}`));
   },
 
@@ -200,7 +199,6 @@ const domUpdates = {
       }),
     })
     .then(response => response.json())
-    .then(data => console.log(data))
     .catch(error => console.log(`There was an error: ${error}`));
   },
 
@@ -218,7 +216,6 @@ const domUpdates = {
       }),
     })
     .then(response => response.json())
-    .then(data => console.log(data))
     .catch(error => console.log(`There was an error: ${error}`));
   },
 }
