@@ -446,7 +446,7 @@ describe('Friend Activity', function() {
     userRepo = new UserRepo(users);
   });
 
-  it.skip('should get a users friend lists activity', function() {
+  it('should get a users friend lists activity', function() {
     expect(activity.getFriendsActivity(user4, userRepo)).to.equal([
         {
           "date": "2019/06/15",
@@ -518,7 +518,7 @@ describe('Friend Activity', function() {
     expect(activity.getFriendsAverageStepsForWeek(user4, "2019/06/15", userRepo)).to.eql(['2', '1']);
   });
 
-  it.only('should know the ID of the winning friend', function() {
+  it('should know the ID of the winning friend', function() {
     expect(parseInt(activity.getWinnerId(user4, "2019/06/15", userRepo))).to.equal(2);
   });
 });
