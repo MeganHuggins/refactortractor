@@ -14,6 +14,7 @@ class Hydration {
 
   calculateDailyOunces(id, date) {
     let foundOuncesByDate = this.hydrationData.find((data) => id === data.userID && date === data.date);
+    console.log('found', foundOuncesByDate);
     return foundOuncesByDate.numOunces;
   }
 
