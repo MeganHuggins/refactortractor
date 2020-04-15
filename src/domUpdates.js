@@ -6,7 +6,7 @@ import Hydration from './Hydration';
 import Activity from './Activity';
 
 
-let userRepo, currentUser, activity, todaysDate, winnerID;
+let userRepo, currentUser, activity, todaysDate, winnerID, hydration;
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
@@ -18,11 +18,14 @@ const domUpdates = {
     currentUser = domUpdates.findRandomUser(users);
     userRepo = new UserRepo(users, currentUser);
     activity = new Activity(activityData);
+    hydration = new Hydration(hydrationData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
     domUpdates.addActivityInfo(activityData);
+    domUpdates.addHydrationInfo(hydrationData);
     // domUpdates.makeWinnerName(activityData, users);
     // domUpdates.addFriendGameInfo(activityData)
+
   },
 
   findRandomUser: (users) => {
@@ -85,26 +88,40 @@ const domUpdates = {
   },
 
   addActivityInfo: (activityData) => {
-    userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'flightsOfStairs')}</span></p>`);
+    $('#userStairsToday').prepend(`<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'flightsOfStairs')}</span></p>`);
 
-    avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'flightsOfStairs')}</span></p>`);
+    $('#avgStairsToday').prepend(`<p>Stair Count: </p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'flightsOfStairs')}</span></p>`);
 
-    userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'numSteps')}</span></p>`);
+    $('#userStepsToday').prepend(`<p>Step Count:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'numSteps')}</span></p>`);
 
-    avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'numSteps')}</span></p>`);
+    $('#avgStepsToday').prepend(`<p>Step Count:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'numSteps')}</span></p>`);
 
-    userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'minutesActive')}</span></p>`);
+    $('#userMinutesToday').prepend(`<p>Active Minutes:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'minutesActive')}</span></p>`);
 
-    avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'minutesActive')}</span></p>`);
+    $('#avgMinutesToday').prepend(`<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'minutesActive')}</span></p>`);
 
-    userStepsThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'numSteps'));
+    $('#userStepsThisWeek').prepend(domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'numSteps'));
 
-    userStairsThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'flightsOfStairs'));
+    $('#userStairsThisWeek').prepend(domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'flightsOfStairs'));
 
-    userMinutesThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'minutesActive'));
+    $('#userMinutesThisWeek').prepend(domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'minutesActive'));
 
-    bestUserSteps.insertAdjacentHTML("afterBegin", domUpdates.makeWinnerHTML(domUpdates.makeWinnerName(activityData, userRepo)));
+    $('#bestUserSteps').prepend(domUpdates.makeWinnerHTML(domUpdates.makeWinnerName(activityData, userRepo)));
   },
+
+  makeHydrationHTML: (currentUserID, hydration, userRepo, weeklyFluids) => {
+    return weeklyFluids.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}</li>`).join('');
+  },
+
+  addHydrationInfo: (id, hydrationData, dateString, userStorage, laterDateString) => {
+
+   $('#hydrationToday').prepend(`<p>You drank</p><p><span class="number">${hydration.calculateDailyOunces(currentUser.id, '2020/01/22')}</span></p><p>oz water today.</p>`);
+
+   $('#hydrationAverage').prepend(`<p>Your average water intake is</p><p><span class="number">${hydration.calculateAverageOunces(currentUser.id)}</span></p> <p>oz per day.</p>`)
+
+   $('#hydrationThisWeek').prepend(domUpdates.makeHydrationHTML(currentUser.id, hydration, userRepo, hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id)));
+
+ }
 
   // addFriendGameInfo: (activityData) => {
   //   friendChallengeListToday.insertAdjacentHTML("afterBegin", domUpdates.makeFriendChallengeHTML(activityData, userRepo, activity.showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData)));
