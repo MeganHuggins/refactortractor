@@ -19,13 +19,9 @@ class Hydration {
 
   showEntireWeeksFluidConsumption(userRepo, id) {
     let mostRecentWeekOfHydration = userRepo.getDataFromPastWeek(this.hydrationData);
-    let weekByDateAndOz = mostRecentWeekOfHydration.map(currentDay => `${currentDay.date}: ${data.numOunces} oz consumed`);
+    let weekByDateAndOz = mostRecentWeekOfHydration.map(currentDay => `${currentDay.date}: ${currentDay.numOunces} oz consumed`);
     return weekByDateAndOz;
   }
-
-  // calculateRandomWeekOunces(date, id, userRepo) {
-  //   return userRepo.getWeekFromDate(date, id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
-  // }-------I DO NOT THINK THAT WE WANT A RANDOM WEEK!!!!!
 }
 
 export default Hydration;
