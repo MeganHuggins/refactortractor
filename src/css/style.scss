@@ -19,21 +19,18 @@ h1 {
 }
 
 .main {
-  display: flex;
-  flex-direction: row;
+  @include flex-display-row;
 
   .main-sidebar-body {
-    display: flex;
-    flex-direction: row;
+    @include flex-display-row;
     height: 100%;
     width: 25%;
 
     .body-sidebar-sidebarContainer {
+      @include flex-display-column;
       align-items: center;
       background-color: $secondary-background;
       border: $primary-border;
-      display: flex;
-      flex-direction: column;
       overflow: scroll;
       text-align: center;
 
@@ -67,8 +64,7 @@ h1 {
       }
 
       .sidebar-body-friendContainer {
-        display: flex;
-        flex-direction: column;
+        @include flex-display-column;
       }
 
       .sidebar-friendContainer-listItems {
@@ -80,65 +76,57 @@ h1 {
 
 
 .body-main-infoContainter {
+  @include flex-display-column;
   border: $primary-border;
-  display: flex;
-  flex-direction: column;
   margin: 0 0 1em;
   overflow: scroll;
   width: 100%;
 }
 
 .main-column-hydration {
-  display: flex;
-  flex-direction: row;
+  @include flex-display-row;
   height: 25%
 }
 
 .main-column-activity {
-  display: flex;
-  flex-direction: row;
+  @include flex-display-row;
   height: 50%
 }
 
 .main-column-sleep {
-  display: flex;
-  flex-direction: row;
+  @include flex-display-row;
   height: 35%
 }
 
 .infoContainer-cardContainer-card-horizontal {
+  @include flex-display-column;
   align-items: center;
   background-color: white;
   border: $primary-border;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
   margin: 1%;
   width: 100%;
 }
 
 .horizontalCard-activity-container {
-  display: flex;
-  flex-direction: row;
+  @include flex-display-row;
   justify-content: space-around;
   overflow: scroll;
   width: 100%;
 }
 
 .infoContainer-cardContainer-card-vertical {
+  @include flex-display-row;
   background-color: white;
   border: $primary-border;
-  display: flex;
-  flex-direction: row;
   margin: 1%;
   overflow: scroll;
   width: 100%;
 }
 
 .card-today-hydration {
+  @include flex-display-column;
   background-color: $hydration-card-color;
-  display: flex;
-  flex-direction: column;
   font-family: $secondary-font-family;
   font-size: $font-medium;
   height: auto;
@@ -149,9 +137,8 @@ h1 {
 }
 
 .card-today-sleep {
+  @include flex-display-column;
   background-color: $sleep-card-color;
-  display: flex;
-  flex-direction: column;
   font-family: $secondary-font-family;
   font-size: $font-medium;
   height: auto;
@@ -162,9 +149,8 @@ h1 {
 }
 
 .card-today-activity {
+  @include flex-display-column;
   background-color: $activity-card-color;
-  display: flex;
-  flex-direction: column;
   font-family: $secondary-font-family;
   font-size: $font-medium;
   height: auto;
@@ -176,9 +162,8 @@ h1 {
 }
 
 .card-history-hydration {
+  @include flex-display-column;
   background-color: $hydration-card-color;
-  display: flex;
-  flex-direction: column;
   font-family: $secondary-font-family;
   font-size: $font-xs;
   justify-content: flex-start;
@@ -188,9 +173,8 @@ h1 {
 }
 
 .card-history-sleep {
+  @include flex-display-column;
   background-color: $sleep-card-color;
-  display: flex;
-  flex-direction: column;
   font-family: $secondary-font-family;
   font-size: $font-xs;
   justify-content: flex-start;
@@ -200,9 +184,8 @@ h1 {
 }
 
 .card-history-activity {
+  @include flex-display-column;
   background-color: $activity-card-color;
-  display: flex;
-  flex-direction: column;
   font-family: $secondary-font-family;
   font-size: $font-xs;
   height: 93%;
@@ -262,9 +245,8 @@ p {
   margin: .6rem;
 
   .post-form {
+    @include flex-display-column;
     background-color: $secondary-background;
-    display: flex;
-    flex-direction: column;
     padding: .5rem;
 
     #add-activity-header {
@@ -284,8 +266,7 @@ p {
 #activityTodayHydration,
 #activityTodayActivity,
 #activityTodaySleep {
-  display: flex;
-  flex-direction: column;
+  @include flex-display-column;
   margin: .2rem;
 }
 
