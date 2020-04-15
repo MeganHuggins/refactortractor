@@ -251,3 +251,52 @@ h1 {
 p {
   text-align: center;
 }
+
+
+// POST FORM FOR NEW DATA
+.post-form-container {
+  background-color: white;
+  border: 1px solid black;
+  padding: .5rem;
+  margin: .6rem;
+}
+
+.post-form {
+  background-color: #9A9DAB;
+  display: flex;
+  flex-direction: column;
+  padding: .5rem;
+}
+
+#add-activity-header {
+  padding: .5rem;
+  text-align: center;
+}
+
+.activity-input {
+  margin: .2rem;
+  padding: .2rem;
+}
+
+#activityTodayDate,
+#activityTodayHydration,
+#activityTodayActivity,
+#activityTodaySleep {
+  display: flex;
+  flex-direction: column;
+  margin: .2rem;
+}
+
+#submit-new-activity-button {
+  font-size: 16px;
+  padding: .2rem;
+  margin: .2rem;
+  width: 50%;
+}
+
+#submit-new-activity-button:hover {
+  background-color: #4d4e4f;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
