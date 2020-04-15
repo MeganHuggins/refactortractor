@@ -1,6 +1,59 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: pink;
+// this is scss declaring a variable
+// find all your colors and make variables for them
+$primary-background: #4d4e4f;
+$secondary-background: #9A9DAB;
+$card-background: #ffffff;
+$activity-card-color: #DFE166;
+$hydration-card-color: #5BC8AC;
+$sleep-card-color: #EC96A4;
+$primary-border: 1px solid #000000;
+$primary-text-color: #000000;
+$secondary-text-color: #4d4e4f;
+$header-text-color: #ffffff;
+$button-hover-color: #4d4e4f;
 
-body {
-  background-color: $primary-background;
+// make variables for your font sizes
+$primary-font-family: sans-serif;
+$secondary-font-family: 'Open Sans';
+
+$font-xs: 1em;
+$font-small: 1.2em;
+$font-medium: 1.5em;
+$font-large: 2em;
+
+$font-bold: bold;
+$font-xbold: bolder;
+$font-lighter: lighter;
+
+$font-styled: italic;
+
+
+// make variables for your margins
+//
+
+
+// body {
+//   background-color: $primary-background;
+// }
+//
+// .add {
+//   background-color: $primary-background;
+//
+//   .button {
+//     background-color: pink;
+//   }
+//
+//   input {
+//     border-radius: 2px;
+//   }
+// }
+.body-sidebar-sidebarContainer {
+  .sidebar-header-name {
+    text-align: center;
+  }
+  .sidebar-header-line {
+    // this is how you use a scs variable
+    border: $primary-background;
+  }
 }
