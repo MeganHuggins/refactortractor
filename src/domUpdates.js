@@ -5,16 +5,8 @@ import Sleep from './Sleep';
 import Hydration from './Hydration';
 import Activity from './Activity';
 
-let userRepo, currentUser, activity, mostCurrentDateInDataSet, hydration;
 
-// let headerText = document.getElementById('headerText');
-// let sidebarName = document.getElementById('sidebarName');
-// let stepGoalCard = document.getElementById('stepGoalCard');
-// let userAddress = document.getElementById('userAddress');
-// let userEmail = document.getElementById('userEmail');
-// let userStridelength = document.getElementById('userStridelength');
-// let friendList = document.getElementById('friendList');
-let mostCurrentWeek = document.querySelectorAll('.historicalWeek');
+let userRepo, currentUser, activity, todaysDate, winnerID;
 
 const domUpdates = {
   loadPage: (users, sleepData, activityData, hydrationData) => {
@@ -24,19 +16,10 @@ const domUpdates = {
     // hydrationData = new Hydration(hydrationData);
     todaysDate = domUpdates.findMostCurrentDate(activityData);
     currentUser = domUpdates.findRandomUser(users);
-    domUpdates.findMostCurrentDate(hydrationData);
-    userRepo = new UserRepo(users, currentUser, mostCurrentDateInDataSet);
+    userRepo = new UserRepo(users, currentUser);
     activity = new Activity(activityData);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
-    // domUpdates.makeWinnerID(activityData);
-    domUpdates.populateLastWeeksData();
-    hydration = new Hydration(hydrationData);
-    console.log(hydration);
-    console.log('average daily oz all time', hydration.calculateAverageOunces(currentUser.id));
-    console.log('oz on specified date', hydration.calculateDailyOunces(currentUser.id, "2019/06/17"));
-    console.log('oz consumed daily latest week', hydration.showEntireWeeksFluidConsumption(userRepo, currentUser.id));
-    // var sortedArray = userRepo.getDataSetForUser(sleepData);
     domUpdates.addActivityInfo(activityData);
     // domUpdates.makeWinnerName(activityData, users);
     // domUpdates.addFriendGameInfo(activityData)
@@ -51,18 +34,8 @@ const domUpdates = {
   },
 
   findMostCurrentDate: (dataSet) => {
-    let sortedData = dataSet.sort((a, b) => parseInt(a.date) - parseInt(b.date));
-    return sortedData[sortedData.length - 1].date;
+    return dataSet[dataSet.length - 1].date;
   },
-
-//   populateLastWeeksData: () => {
-//     // console.log($('.historicalWeek'));
-//     $('.historicalWeek').each((index, value) => {
-//       $(value).append(`Week of ${mostCurrentDateInDataSet}`);
-//     });
-//       // mostCurrentWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${mostCurrentDateInDataSet}`));
-//       // addInfoToSidebar(currentUser, userRepo);
-//   },
 
   addInfoToSidebar: (userRepo) => {
     $('#sidebarName').text(currentUser.name);
@@ -113,20 +86,33 @@ const domUpdates = {
 
   addActivityInfo: (activityData) => {
     userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'flightsOfStairs')}</span></p>`);
+
     avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'flightsOfStairs')}</span></p>`);
+
     userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'numSteps')}</span></p>`);
+
     avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'numSteps')}</span></p>`);
+
     userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'minutesActive')}</span></p>`);
+
     avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activity.getAllUserAverageForDay(activityData, todaysDate, userRepo, 'minutesActive')}</span></p>`);
+
     userStepsThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'numSteps'));
+
     userStairsThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'flightsOfStairs'));
+
     userMinutesThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'minutesActive'));
+
     bestUserSteps.insertAdjacentHTML("afterBegin", domUpdates.makeWinnerHTML(domUpdates.makeWinnerName(activityData, userRepo)));
   },
 
   // addFriendGameInfo: (activityData) => {
   //   friendChallengeListToday.insertAdjacentHTML("afterBegin", domUpdates.makeFriendChallengeHTML(activityData, userRepo, activity.showChallengeListAndWinner(currentUser, todaysDate, userRepo, activityData)));
   // },
+
 }
+
+
+
 
 export default domUpdates;
