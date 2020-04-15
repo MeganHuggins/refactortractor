@@ -139,7 +139,7 @@ describe('Hydration', function() {
       friends: [1, 2, 3]
     });
     const users = [user3, user4];
-<<<<<<< HEAD
+
     const userRepo = new UserRepo(users);
     expect(hydration.calculateFirstWeekOunces(userRepo, 4)[0]).to.eql('2019/09/20: 40');
     expect(hydration.calculateFirstWeekOunces(userRepo, 4)[6]).to.eql('2019/04/15: 36');
@@ -165,18 +165,10 @@ describe('Hydration', function() {
       dailyStepGoal: 7000,
       friends: [1, 2, 3]
     });
+
     const users = [user3, user4];
     const userRepo = new UserRepo(users);
     expect(hydration.calculateRandomWeekOunces('2019/09/18', 4, userRepo)[0]).to.eql('2019/09/18: 40');
-    // expect(hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo)[6]).to.eql('2019/09/16: 30');
-    //this is failing because it doesn't exist, need a failure case
-  })
-  //day of hydration should not include user 2 or user 1 on August 22
-  //week of hydration should not include user 4 not during the week
-=======
-    const userRepo = new UserRepo(users, user4);
->>>>>>> e63456d759b7b1ce0e5ed8def414ef54e53a94e0
-
     expect(hydration.showEntireWeeksFluidConsumption(userRepo, 4).length).to.deep.eql(7);
   });
 });
