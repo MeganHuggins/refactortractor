@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Hydration from '../src/Hydration';
-import UserRepo from '../src/User-repo';
+import UserRepo from '../src/UserRepo';
 import User from '../src/User';
 
 describe('Hydration', function() {

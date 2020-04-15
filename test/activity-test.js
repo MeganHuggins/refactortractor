@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import Activity from '../src/Activity';
-import UserRepo from '../src/User-repo';
+import UserRepo from '../src/UserRepo';
 import User from '../src/User';
 
-describe('Activity', function() {
+
+describe.only('Activity', function() {
   let activityData;
   let user1;
   let user2;

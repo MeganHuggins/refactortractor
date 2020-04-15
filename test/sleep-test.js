@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import Sleep from '../src/Sleep';
-import UserRepo from '../src/User-repo';
+import UserRepo from '../src/UserRepo';
 import User from '../src/User';
 
 describe('Sleep', function() {
