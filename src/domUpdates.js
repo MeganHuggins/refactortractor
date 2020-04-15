@@ -15,7 +15,7 @@ const domUpdates = {
     currentUser = domUpdates.findRandomUser(users);
     userRepo = new UserRepo(users, currentUser);
     activity = new Activity(activityData);
-    hydration = new Hydration(hydrationData);
+    hydration = new Hydration(hydrationData, userRepo);
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
 

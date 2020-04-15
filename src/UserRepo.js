@@ -23,7 +23,7 @@ class UserRepo {
     return totalStepGoal / this.users.length;
   };
 
-  getDataFromPastWeek(dataSet, todayDate) {
+  getDataFromPastWeek(dataSet) {
     let userDataSet = this.getDataSetForUser(dataSet).sort((a, b) => parseInt(a.date) - parseInt(b.date));
     todaysDate = domUpdates.findMostCurrentDate(userDataSet);
 
@@ -32,41 +32,9 @@ class UserRepo {
     return weeksWorthOfData;
   };
 
-  // getFriendDataFromPastWeek(friendsActivity) {
-  //   // let friendDataSet = currentUser.friends.map(friend => {
-  //   //   return this.getDataSetForFriends(dataSet, friend)
-  //   // })
-  //   // .sort((a, b) => parseInt(a.date) - parseInt(b.date));
-  //   let indexOfCurrentDate = friendsActivity.indexOf(friendsActivity.find(data => data.date === '2020/01/22'));
-  //   let weeksWorthOfData = friendsActivity.splice((indexOfCurrentDate - 7), 7);
-  //   return weeksWorthOfData;
-  //
-  //
-  //   todaysDate = domUpdates.findMostCurrentDate(friendsActivity);
-  //
-  //   friendsActivity.reduce((acc, friend) =>{
-  //     friend
-  //   }, {})
-  //
-  // };
-
-  // getToday(id, dataSet) { ***Didn't see this called anywhere
-  //   return this.makeSortedUserArray(id, dataSet)[0].date;
-  // };
-
-  //** getFirstWeek is only called once in Hydration.js in the mthod calculateFirstWeekOunces**
-  // getFirstWeek(id, dataSet) {
-  //   return this.makeSortedUserArray(id, dataSet).slice(0, 7);
-  // };
-
-  // getWeekFromDate(date, id, dataSet) {
-  //   let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-  //   return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
-  // };
-
   chooseDayDataForAllUsers(activityData, date) {
     return activityData.filter(dataItem => {
-      return dataItem.date === date
+      return dataItem.date === date;
     });
   }
 
