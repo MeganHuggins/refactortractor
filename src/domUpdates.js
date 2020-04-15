@@ -30,7 +30,7 @@ const domUpdates = {
     userRepo.getDataFromPastWeek(hydrationData);
     domUpdates.addInfoToSidebar(userRepo);
     domUpdates.addActivityInfo(activityData);
-    // domUpdates.makeWinnerID(activityData);
+    // domUpdates.makeWinnerName(activityData, users);
     // domUpdates.addFriendGameInfo(activityData)
   },
 
@@ -62,6 +62,11 @@ const domUpdates = {
     return friends.map(friend => `<li class='historical-list-listItem'>${friend}</li>`).join('');
   },
 
+  makeWinnerHTML: (winnerName) => {
+    let winner = winnerName
+    return `<li class="historical-list-listItem">${winner} did the most steps</li>`;
+  },
+
   makeActivitiesHTML: (activityData, userRepo, weekOfUserActivityData, relevantData) => {
     let typeOfActivity;
 
@@ -80,9 +85,13 @@ const domUpdates = {
     return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
   },
 
-  // makeWinnerID: (activityData) => {
-  //   let winnerID = activity.getWinnerId(currentUser, todaysDate, userRepo);
-  // },
+  makeWinnerName: (activityData, users) => {
+    console.log('users', users);
+    let winnerID = parseInt(activity.getWinnerId(currentUser, todaysDate, userRepo));
+    let winnerInfo = userRepo.users.find(user => user.id === winnerID);
+    console.log('winnerInfo', winnerInfo);
+    return winnerInfo.name
+  },
 
   addActivityInfo: (activityData) => {
     userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activity.userDataForToday(activityData, '2020/01/22', currentUser.id, 'flightsOfStairs')}</span></p>`);
@@ -103,7 +112,7 @@ const domUpdates = {
 
     userMinutesThisWeek.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getDataFromPastWeek(activityData, todaysDate), 'minutesActive'));
 
-    // bestUserSteps.insertAdjacentHTML("afterBegin", domUpdates.makeActivitiesHTML(activityData, userRepo, userRepo.getFriendDataFromPastWeek(winnerID, activityData), "numSteps"));
+    bestUserSteps.insertAdjacentHTML("afterBegin", domUpdates.makeWinnerHTML(domUpdates.makeWinnerName(activityData, userRepo)));
   },
 
   // addFriendGameInfo: (activityData) => {

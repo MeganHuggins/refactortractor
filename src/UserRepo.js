@@ -1,6 +1,5 @@
 import domUpdates from './domUpdates';
 let todaysDate;
-//**should we pass todays date into constructor?**
 
 class UserRepo {
   constructor(users, currentUser) {
@@ -14,7 +13,8 @@ class UserRepo {
   };
 
   getDataSetForFriends(dataSet, friends) {
-    return dataSet.filter(friendData => friendData.userID === friends);
+    let friendsDataSets = dataSet.filter(friendData => friendData.userID === friends)
+    return friendsDataSets.splice((friendsDataSets.length - 7), 7);
   };
 
   calculateAverageStepGoal() {
@@ -33,17 +33,23 @@ class UserRepo {
     return weeksWorthOfData;
   };
 
-  getFriendDataFromPastWeek(friendsActivity) {
-    // let friendDataSet = currentUser.friends.map(friend => {
-    //   return this.getDataSetForFriends(dataSet, friend)
-    // })
-    // .sort((a, b) => parseInt(a.date) - parseInt(b.date));
-    todaysDate = domUpdates.findMostCurrentDate(friendsActivity);
-
-    let indexOfCurrentDate = friendsActivity.indexOf(friendsActivity.find(data => data.date === todaysDate));
-    let weeksWorthOfData = friendsActivity.splice((indexOfCurrentDate - 7), 7);
-    return weeksWorthOfData;
-  };
+  // getFriendDataFromPastWeek(friendsActivity) {
+  //   // let friendDataSet = currentUser.friends.map(friend => {
+  //   //   return this.getDataSetForFriends(dataSet, friend)
+  //   // })
+  //   // .sort((a, b) => parseInt(a.date) - parseInt(b.date));
+  //   let indexOfCurrentDate = friendsActivity.indexOf(friendsActivity.find(data => data.date === '2020/01/22'));
+  //   let weeksWorthOfData = friendsActivity.splice((indexOfCurrentDate - 7), 7);
+  //   return weeksWorthOfData;
+  //
+  //
+  //   todaysDate = domUpdates.findMostCurrentDate(friendsActivity);
+  //
+  //   friendsActivity.reduce((acc, friend) =>{
+  //     friend
+  //   }, {})
+  //
+  // };
 
   // getToday(id, dataSet) { ***Didn't see this called anywhere
   //   return this.makeSortedUserArray(id, dataSet)[0].date;
@@ -75,10 +81,8 @@ class UserRepo {
     });
   }
 
-//createFriendsDataSetObj is called twice in the UserRepo.js in the methods of rankUserIDsbyRelevantDataValue and combineFriendsRankingWithAveragedData. The methods it's used in sleep are never used
-
-  createFriendsDataSetObj(friendsActivity, todaysDate, relevantData, timeline) {
-    return timeline.reduce((acc, dataItem) => {
+  createFriendsDataSetObj(friendsActivity, todaysDate, relevantData) {
+    return friendsActivity.reduce((acc, dataItem) => {
       dataItem.forEach(item => {
         if (!acc[item.userID]) {
           acc[item.userID] = [item[relevantData]]
@@ -90,9 +94,10 @@ class UserRepo {
     }, {});
   }
 
-//rankUserIDsbyRelevantDataValue is called only once in UserRepo.js in the method combineFriendsRankingWithAveragedData
-  rankFriendsByDataSets(friendsActivity, todaysDate, relevantData, timeline) {
-    let friendsDataSets = this.createFriendsDataSetObj(friendsActivity, todaysDate, 'numSteps', timeline);
+  rankFriendsByDataSets(friendsActivity, todaysDate, relevantData) {
+
+    let friendsDataSets = this.createFriendsDataSetObj(friendsActivity, todaysDate, 'numSteps');
+    console.log('friendsDataSets', friendsDataSets);
 
     return Object.keys(friendsDataSets).sort((a, b) => {
       return (friendsDataSets[b].reduce((acc, curr) => {
@@ -105,23 +110,8 @@ class UserRepo {
     });
   }
 
-//combineFriendsRankingWithAveragedData is only called once in the method getFriendsAverageStepsForWeek in Activity.js, the methods it's used in sleep are never used
-
-  combineFriendsRankingWithAveragedData(friendsActivity, todaysDate, releventData, timeline) {
-
-    let friendRankings = this.rankFriendsByDataSets(friendsActivity, todaysDate, releventData, timeline);
-
-
-    return friendRankings.map(friend => {
-      // rankedUser = {
-      //   [rankedUser]: sortedObjectKeys[rankedUser].reduce(
-      //     function(sumSoFar, sleepQualityValue) {
-      //       sumSoFar += sleepQualityValue
-      //       return sumSoFar;
-      //     }, 0) / sortedObjectKeys[rankedUser].length
-      // };
-      // return rankedUser;
-    });
+  friendStepsRankings(friendsActivity, todaysDate, releventData) {
+    return this.rankFriendsByDataSets(friendsActivity, todaysDate, releventData);
   }
 }
 
