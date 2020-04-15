@@ -1,17 +1,19 @@
+@import 'base.scss';
+
 * {
   margin: 0;
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: $primary-font-family;
   margin: 0;
-  background-color: #4d4e4f;
+  background-color: $primary-background;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #ffffff;
+  color: $header-text-color;
   height: 80px;
   padding-top: 10px;
 }
@@ -19,67 +21,66 @@ h1 {
 .main {
   display: flex;
   flex-direction: row;
+
+  .main-sidebar-body {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 25%;
+
+    .body-sidebar-sidebarContainer {
+      align-items: center;
+      background-color: $secondary-background;
+      border: $primary-border;
+      display: flex;
+      flex-direction: column;
+      overflow: scroll;
+      text-align: center;
+
+      .sidebar-header-name {
+        text-align: center;
+      }
+
+      .sidebar-header-userImage {
+        border: $primary-border;
+        border-radius: 50%;
+        height: 200px;
+        justify-content: center;
+        margin: 4px 2px 2px 2px;
+        width: 200px;
+      }
+
+      .sidebar-header-line {
+        border: $primary-border;
+        color: $header-text-color;
+        height: 0;
+        margin: 1em 1em 0 1em;
+        width: 80%;
+      }
+
+      .sidebar-header-userInfo {
+        font-family: $secondary-font-family;
+        font-size: $font-small;
+        font-weight: $font-bold;
+        margin: .5em .5em .5em .5em;
+        width: inherit;
+      }
+
+      .sidebar-body-friendContainer {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar-friendContainer-listItems {
+        text-align: left;
+      }
+    }
+  }
 }
 
-.main-sidebar-body {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 25%;
-}
-
-.body-sidebar-sidebarContainer {
-  align-items: center;
-  background-color: #9A9DAB;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  overflow: scroll;
-  text-align: center;
-}
-
-.sidebar-header-name {
-  text-align: center;
-}
-
-.sidebar-header-userInfo {
-  font-family: sans-serif;
-  font-size: 1.2em;
-  font-weight: bold;
-  margin: .5em .5em .5em .5em;
-  width: inherit;
-}
-
-.sidebar-header-line {
-  border: 1px solid black;
-  color: #ffffff;
-  height: 0;
-  margin: 1em 1em 0 1em;
-  width: 80%;
-}
-
-.sidebar-header-userImage {
-  border-color: black;
-  border-radius: 50%;
-  border-style: solid;
-  border-width: 1px;
-  height: 200px;
-  justify-content: center;
-  margin: 4px 2px 2px 2px;
-  width: 200px;
-}
-
-.sidebar-body-friendContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-friendContainer-listItems {
-  text-align: left;
-}
 
 .body-main-infoContainter {
-  border: 1px solid black;
+  border: $primary-border;
   display: flex;
   flex-direction: column;
   margin: 0 0 1em;
@@ -108,7 +109,7 @@ h1 {
 .infoContainer-cardContainer-card-horizontal {
   align-items: center;
   background-color: white;
-  border: 1px solid black;
+  border: $primary-border;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -126,7 +127,7 @@ h1 {
 
 .infoContainer-cardContainer-card-vertical {
   background-color: white;
-  border: 1px solid black;
+  border: $primary-border;
   display: flex;
   flex-direction: row;
   margin: 1%;
@@ -135,11 +136,11 @@ h1 {
 }
 
 .card-today-hydration {
-  background-color: #5BC8AC;
+  background-color: $hydration-card-color;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  font-size: 1.5em;
+  font-family: $secondary-font-family;
+  font-size: $font-medium;
   height: auto;
   justify-content: space-between;
   margin: .5em;
@@ -148,11 +149,11 @@ h1 {
 }
 
 .card-today-sleep {
-  background-color: #EC96A4;
+  background-color: $sleep-card-color;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  font-size: 1.5em;
+  font-family: $secondary-font-family;
+  font-size: $font-medium;
   height: auto;
   justify-content: space-between;
   margin: .5em;
@@ -161,11 +162,11 @@ h1 {
 }
 
 .card-today-activity {
-  background-color: #DFE166;
+  background-color: $activity-card-color;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  font-size: 1.5em;
+  font-family: $secondary-font-family;
+  font-size: $font-medium;
   height: auto;
   justify-content: space-between;
   margin: .3em;
@@ -175,11 +176,11 @@ h1 {
 }
 
 .card-history-hydration {
-  background-color: #5BC8AC;
+  background-color: $hydration-card-color;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  font-size: 1em;
+  font-family: $secondary-font-family;
+  font-size: $font-xs;
   justify-content: flex-start;
   margin: .5em;
   text-align: center;
@@ -187,11 +188,11 @@ h1 {
 }
 
 .card-history-sleep {
-  background-color: #EC96A4;
+  background-color: $sleep-card-color;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  font-size: 1em;
+  font-family: $secondary-font-family;
+  font-size: $font-xs;
   justify-content: flex-start;
   margin: .5em;
   text-align: center;
@@ -199,11 +200,11 @@ h1 {
 }
 
 .card-history-activity {
-  background-color: #DFE166;
+  background-color: $activity-card-color;
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  font-size: 1em;
+  font-family: $secondary-font-family;
+  font-size: $font-xs;
   height: 93%;
   justify-content: flex-start;
   margin: .5em;
@@ -213,39 +214,39 @@ h1 {
 }
 
 .number {
-  color: #4d4e4f;
+  color: $secondary-text-color;
   font-kerning: normal;
-  font-size: 2em;
-  font-weight: bolder;
+  font-size: $font-large;
+  font-weight: $font-xbold;
 }
 
 .historicalWeek {
-  color: black;
-  font-size: 1em;
-  font-weight: bolder;
+  color: $primary-text-color;
+  font-size: $font-xs;
+  font-weight: $font-xbold;
   margin: .5em;
   text-align: center;
 }
 
 .thisWeek {
-  color: black;
-  font-size: 1em;
-  font-weight: bolder;
+  color: $primary-text-color;
+  font-size: $font-xs;
+  font-weight: $font-xbold;
   margin: .5em;
   text-align: center;
 }
 
 .card-vertical-list {
-  font-size: 1em;
-  font-style: italic;
-  font-weight: lighter;
+  font-size: $font-xs;
+  font-style: $font-styled;
+  font-weight: $font-lighter;
   list-style-type: none;
   padding-left: 0;
 }
 
 .historical-list-listItem {
-  font-family: sans-serif;
-  font-weight: bold;
+  font-family: $secondary-font-family;
+  font-weight: $font-bold;
   padding: .3em;
 }
 p {
@@ -256,22 +257,23 @@ p {
 // POST FORM FOR NEW DATA
 .post-form-container {
   background-color: white;
-  border: 1px solid black;
+  border: $primary-border;
   padding: .5rem;
   margin: .6rem;
+
+  .post-form {
+    background-color: $secondary-background;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+
+    #add-activity-header {
+      padding: .5rem;
+      text-align: center;
+    }
+  }
 }
 
-.post-form {
-  background-color: #9A9DAB;
-  display: flex;
-  flex-direction: column;
-  padding: .5rem;
-}
-
-#add-activity-header {
-  padding: .5rem;
-  text-align: center;
-}
 
 .activity-input {
   margin: .2rem;
@@ -295,7 +297,7 @@ p {
 }
 
 #submit-new-activity-button:hover {
-  background-color: #4d4e4f;
+  background-color: $button-hover-color;
   border: none;
   color: white;
   cursor: pointer;

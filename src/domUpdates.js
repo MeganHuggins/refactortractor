@@ -102,9 +102,9 @@ const domUpdates = {
     return weekOfUserActivityData.map(day => `<li class="historical-list-listItem">On ${day.date} you did ${day[relevantData]} ${typeOfActivity}</li>`).join('');
   },
 
-  makeFriendChallengeHTML: (id, activityInfo, userStorage, method) => {
-    return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
-  },
+  // makeFriendChallengeHTML: (id, activityInfo, userStorage, method) => {
+  //   return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
+  // },
 
   makeWinnerName: (activityData, users) => {
     let winnerID = parseInt(activity.getWinnerId(currentUser, todaysDate, userRepo));
